@@ -1,0 +1,67 @@
+.contact {
+  position: relative;
+  padding: 170px 8vw 150px;
+  border-top: 1px solid var(--line);
+  overflow: hidden;
+}
+
+.glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 55% 45% at 50% 110%,
+    color-mix(in oklab, var(--accent) 14%, transparent),
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+.inner {
+  position: relative;
+  text-align: center;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(56px, 9vw, 150px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  margin: 40px 0 0;
+}
+
+.accent {
+  color: var(--accent);
+}
+
+.outline {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--text);
+}
+
+.outlineAccent {
+  color: transparent;
+  -webkit-text-stroke: 2.5px var(--accent);
+}
+
+.serifAccent {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--accent);
+}
+
+.tagline {
+  font: 400 18px/1.6 var(--font-body);
+  color: var(--text-dim);
+  margin: 36px auto 0;
+  max-width: 520px;
+}
+
+.actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 48px;
+  flex-wrap: wrap;
+}
