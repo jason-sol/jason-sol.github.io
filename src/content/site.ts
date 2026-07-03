@@ -85,6 +85,7 @@ export interface Contact {
 
 export interface Footer {
   copyright: string
+  location: string
   credit: string
 }
 
@@ -291,6 +292,7 @@ export const site: Site = {
   },
   footer: {
     copyright: '© 2026 JASON SOLANKI',
+    location: 'SYDNEY, NSW',
     credit: 'DESIGNED & BUILT BY ME',
   },
 }

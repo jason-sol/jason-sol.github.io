@@ -11,6 +11,11 @@ it('is a contentinfo landmark', () => {
   expect(screen.getByRole('contentinfo')).toBeInTheDocument()
 })
 
+it('shows the Sydney location', () => {
+  render(<Footer />)
+  expect(screen.getByText('SYDNEY, NSW')).toBeInTheDocument()
+})
+
 it('contains no phone number', () => {
   const { container } = render(<Footer />)
   expect(container.textContent).not.toMatch(/\d{4}\s?\d{3}\s?\d{3}/)

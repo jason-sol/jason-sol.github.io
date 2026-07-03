@@ -5,6 +5,7 @@ export function Footer() {
   return (
     <footer className={styles.footer}>
       <span>{site.footer.copyright}</span>
+      <span>{site.footer.location}</span>
       <span>
         {site.footer.credit}
         <span className={styles.cursor} aria-hidden="true" />
