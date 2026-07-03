@@ -1,0 +1,16 @@
+:root {
+  --bg: #0b0b0e;
+  --surface: #0e0e12;
+  --line: #1c1c22;
+  --line-strong: #26262e;
+  --text: #e8e6e1;
+  --text-mid: #a8a8b2;
+  --text-dim: #8a8a93;
+  --text-faint: #5a5a64;
+  --accent: #57e6e0;
+
+  --font-display: 'Unbounded', sans-serif;
+  --font-body: 'Space Grotesk', sans-serif;
+  --font-serif: 'Instrument Serif', serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+}
