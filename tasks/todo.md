@@ -29,7 +29,7 @@
 
 - [x] WG1 Walking skeleton + CI (tasks 1–5)
 - [x] WG2 Hero + Ticker (tasks 6–9)
-- [ ] WG3 About + Stack (tasks 10–13) — parallel with WG2/WG4
+- [x] WG3 About + Stack (tasks 10–13)
 - [ ] WG4 Experience + Projects + Education (tasks 14–16) — parallel with WG2/WG3
 - [ ] WG5 Page-level Effects (tasks 17–19) — after WG2–4
 - [ ] WG6 Launch hardening (tasks 20–21)

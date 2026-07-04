@@ -347,29 +347,29 @@ describe('activePhaseIndex', () => {
 
 **Files:** Create `src/lib/easing.ts(+.test.ts)`, `src/hooks/useCountUp.ts(+.test.ts)`, `src/hooks/useReveal.ts(+.test.ts)`
 
-- [ ] **Step 1: Failing tests:** `easeOutCubic(0)=0, (1)=1, (0.5)=0.875`; `useCountUp(70)` with mocked rAF/`performance.now` reaches 70 at t≥1400ms and is monotonic; returns 70 immediately under reduced motion (do not block on WG5's `useReducedMotion` — inline a `matchMedia('(prefers-reduced-motion: reduce)')` check here, refactor to the hook when WG5 merges). `useReveal` flips `visible` when the mocked IntersectionObserver fires, honours `delay`, unobserves after reveal.
-- [ ] **Step 2:** FAIL. **Step 3:** Implement (port export 451–469, 430–449). IntersectionObserver mocked globally in `src/test-setup.ts`. **Step 4:** PASS. **Step 5:** Commit — `feat: add reveal and count-up animation hooks`.
+- [x] **Step 1: Failing tests:** `easeOutCubic(0)=0, (1)=1, (0.5)=0.875`; `useCountUp(70)` with mocked rAF/`performance.now` reaches 70 at t≥1400ms and is monotonic; returns 70 immediately under reduced motion (do not block on WG5's `useReducedMotion` — inline a `matchMedia('(prefers-reduced-motion: reduce)')` check here, refactor to the hook when WG5 merges). `useReveal` flips `visible` when the mocked IntersectionObserver fires, honours `delay`, unobserves after reveal.
+- [x] **Step 2:** FAIL. **Step 3:** Implement (port export 451–469, 430–449). IntersectionObserver mocked globally in `src/test-setup.ts`. **Step 4:** PASS. **Step 5:** Commit — `feat: add reveal and count-up animation hooks`.
 
 ### Task 11: Dissolve cells (pure) + DissolvePortrait
 
 **Files:** Create `src/lib/dissolve.ts(+.test.ts)`, `src/components/effects/DissolvePortrait.tsx(+.test.tsx)`
 
-- [ ] **Step 1: Failing tests:** `makeDissolveCells(16, 20, rng)` returns 320 cells, thresholds in [0, ~1.5], deterministic for a seeded rng, radially biased (corner cell threshold > center cell on average). Component: renders `<canvas aria-hidden>`; on image `error` event renders the styled fallback frame (assert via test id) — **About never breaks** (spec).
-- [ ] **Step 2:** FAIL. **Step 3:** Implement — port export 515–554; component props `{ src: string; progress: number }`; drawing guarded (`img.complete`, delta ≥ 0.004). **Step 4:** PASS. **Step 5:** Commit — `feat: add dissolve portrait effect with image fallback`.
+- [x] **Step 1: Failing tests:** `makeDissolveCells(16, 20, rng)` returns 320 cells, thresholds in [0, ~1.5], deterministic for a seeded rng, radially biased (corner cell threshold > center cell on average). Component: renders `<canvas aria-hidden>`; on image `error` event renders the styled fallback frame (assert via test id) — **About never breaks** (spec).
+- [x] **Step 2:** FAIL. **Step 3:** Implement — port export 515–554; component props `{ src: string; progress: number }`; drawing guarded (`img.complete`, delta ≥ 0.004). **Step 4:** PASS. **Step 5:** Commit — `feat: add dissolve portrait effect with image fallback`.
 
 ### Task 12: splitWords (pure) + About section
 
 **Files:** Create `src/lib/splitWords.ts(+.test.ts)`, `src/components/ui/StatCounter.tsx` (+ test; wraps `useCountUp`, renders value + caption), `src/components/sections/About.tsx` (+ module.css + test); modify `src/App.tsx`
 
-- [ ] **Step 1: Failing tests:** `litWordCount(fraction, total)` clamps 0..total; About renders statement words as spans, `id="about"`, three StatCounters with values from Content model, portrait wrapped in `<figure>` with FIG. 01 caption.
-- [ ] **Step 2:** FAIL. **Step 3:** Implement (export 146–172): word spans opacity driven by scroll fraction (React state, no direct DOM writes); grid collapses to 1 column below 1150px via media query (replaces export's JS patching, lines 491–508). **Step 4:** PASS + visual scroll check. **Step 5:** Commit — `feat: add about section with dissolve portrait and word reveal`.
+- [x] **Step 1: Failing tests:** `litWordCount(fraction, total)` clamps 0..total; About renders statement words as spans, `id="about"`, three StatCounters with values from Content model, portrait wrapped in `<figure>` with FIG. 01 caption.
+- [x] **Step 2:** FAIL. **Step 3:** Implement (export 146–172): word spans opacity driven by scroll fraction (React state, no direct DOM writes); grid collapses to 1 column below 1150px via media query (replaces export's JS patching, lines 491–508). **Step 4:** PASS + visual scroll check. **Step 5:** Commit — `feat: add about section with dissolve portrait and word reveal`.
 
 ### Task 13: Stack section + Tag primitive
 
 **Files:** Create `src/components/ui/Tag.tsx` (+ module.css + test), `src/components/sections/Stack.tsx` (+ test); modify `src/App.tsx`
 
-- [ ] **Step 1: Failing test:** renders one row per StackGroup from Content model, all tag labels present, `id="stack"`; testing row uses accent variant.
-- [ ] **Step 2:** FAIL. **Step 3:** Implement (export 174–242; hover styles via `:hover`). **Step 4:** PASS. **Step 5:** Commit — `feat: add stack section`.
+- [x] **Step 1: Failing test:** renders one row per StackGroup from Content model, all tag labels present, `id="stack"`; testing row uses accent variant.
+- [x] **Step 2:** FAIL. **Step 3:** Implement (export 174–242; hover styles via `:hover`). **Step 4:** PASS. **Step 5:** Commit — `feat: add stack section`.
 
 ---
 
