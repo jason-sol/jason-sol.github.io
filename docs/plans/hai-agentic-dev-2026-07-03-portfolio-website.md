@@ -289,7 +289,7 @@ jobs:
 
 **Files:** Create `src/lib/heroPhases.test.ts`, `src/lib/heroPhases.ts`
 
-- [ ] **Step 1: Failing test:**
+- [x] **Step 1: Failing test:**
 
 ```ts
 import { describe, expect, it } from 'vitest'
@@ -311,28 +311,28 @@ describe('activePhaseIndex', () => {
 })
 ```
 
-- [ ] **Step 2:** Run → FAIL. **Step 3:** Implement — port ranges table and `sm`/`clamp` from export lines 557–588: `phaseStyle(i, p)` returns `{ opacity, translateY, scale, blur }`; `activePhaseIndex(p)` returns 0–3 via the 0.255/0.505/0.755 breakpoints. **Step 4:** PASS. **Step 5:** Commit — `feat: add hero phase visibility math`.
+- [x] **Step 2:** Run → FAIL. **Step 3:** Implement — port ranges table and `sm`/`clamp` from export lines 557–588: `phaseStyle(i, p)` returns `{ opacity, translateY, scale, blur }`; `activePhaseIndex(p)` returns 0–3 via the 0.255/0.505/0.755 breakpoints. **Step 4:** PASS. **Step 5:** Commit — `feat: add hero phase visibility math`.
 
 ### Task 7: useScrollProgress (test-first)
 
 **Files:** Create `src/hooks/useScrollProgress.test.ts`, `src/hooks/useScrollProgress.ts`
 
-- [ ] **Step 1: Failing test** (jsdom): `renderHook`, mock `ref.current.getBoundingClientRect` (`top: -1000, height: 4 * innerHeight`), dispatch `scroll` event, assert returned progress ≈ `1000 / (height - innerHeight)`; assert rAF throttling (two scroll events, one rAF flush → one recompute) and listener removal on unmount (`removeEventListener` spy).
-- [ ] **Step 2:** FAIL. **Step 3:** Implement: `useScrollProgress(ref): number` — passive scroll listener + rAF tick guard (port of export lines 565–575), recompute on `resize` too, cleanup both. **Step 4:** PASS. **Step 5:** Commit — `feat: add scroll progress hook`.
+- [x] **Step 1: Failing test** (jsdom): `renderHook`, mock `ref.current.getBoundingClientRect` (`top: -1000, height: 4 * innerHeight`), dispatch `scroll` event, assert returned progress ≈ `1000 / (height - innerHeight)`; assert rAF throttling (two scroll events, one rAF flush → one recompute) and listener removal on unmount (`removeEventListener` spy).
+- [x] **Step 2:** FAIL. **Step 3:** Implement: `useScrollProgress(ref): number` — passive scroll listener + rAF tick guard (port of export lines 565–575), recompute on `resize` too, cleanup both. **Step 4:** PASS. **Step 5:** Commit — `feat: add scroll progress hook`.
 
 ### Task 8: Hero section + HeroBackdrop
 
 **Files:** Create `src/components/effects/HeroBackdrop.tsx`, `src/components/sections/Hero.tsx` (+ module.css + test); modify `src/App.tsx`
 
-- [ ] **Step 1: Failing test:** renders all 4 Hero phases' headline text from the Content model; container has `id="top"`; progress-rail dots = 4; backdrop wrapper `aria-hidden="true"`.
-- [ ] **Step 2:** FAIL. **Step 3:** Implement from export 64–136: sticky 380vh wrapper; phases positioned absolute, styles driven by `phaseStyle(i, useScrollProgress(ref))`; HeroBackdrop = grid + light-lines (export 68–78), pure CSS animation, `display: none` when Reduced-motion (via `useReducedMotion` — if WG5 not merged yet, use the CSS `@media (prefers-reduced-motion)` in module.css; do not block on WG5). Blur transitions skipped under reduced motion (export line 586 behaviour). **Step 4:** PASS + visual check at 3 scroll depths. **Step 5:** Commit — `feat: add hero scroll story`.
+- [x] **Step 1: Failing test:** renders all 4 Hero phases' headline text from the Content model; container has `id="top"`; progress-rail dots = 4; backdrop wrapper `aria-hidden="true"`.
+- [x] **Step 2:** FAIL. **Step 3:** Implement from export 64–136: sticky 380vh wrapper; phases positioned absolute, styles driven by `phaseStyle(i, useScrollProgress(ref))`; HeroBackdrop = grid + light-lines (export 68–78), pure CSS animation, `display: none` when Reduced-motion (via `useReducedMotion` — if WG5 not merged yet, use the CSS `@media (prefers-reduced-motion)` in module.css; do not block on WG5). Blur transitions skipped under reduced motion (export line 586 behaviour). **Step 4:** PASS + visual check at 3 scroll depths. **Step 5:** Commit — `feat: add hero scroll story`.
 
 ### Task 9: Ticker + Marquee primitive
 
 **Files:** Create `src/components/ui/Marquee.tsx` (+ module.css + test), `src/components/sections/Ticker.tsx` (+ test); modify `src/App.tsx`
 
-- [ ] **Step 1: Failing test:** Marquee renders children twice (loop copy) with the duplicate `aria-hidden="true"`; Ticker shows each stat from the Content model exactly once accessibly (`getAllByText(/180\+ pull requests/i)` visible-copy assertion).
-- [ ] **Step 2:** FAIL. **Step 3:** Implement (export 138–144); `animation-play-state: paused` under reduced motion. **Step 4:** PASS. **Step 5:** Commit — `feat: add stat ticker`.
+- [x] **Step 1: Failing test:** Marquee renders children twice (loop copy) with the duplicate `aria-hidden="true"`; Ticker shows each stat from the Content model exactly once accessibly (`getAllByText(/180\+ pull requests/i)` visible-copy assertion).
+- [x] **Step 2:** FAIL. **Step 3:** Implement (export 138–144); `animation-play-state: paused` under reduced motion. **Step 4:** PASS. **Step 5:** Commit — `feat: add stat ticker`.
 
 ---
 
