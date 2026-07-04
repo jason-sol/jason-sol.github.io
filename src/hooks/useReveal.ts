@@ -1,10 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-
-function prefersReducedMotion(): boolean {
-  return typeof window !== 'undefined' && typeof window.matchMedia === 'function'
-    ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    : false
-}
+import { prefersReducedMotion } from '../lib/motion'
 
 export interface UseRevealResult<T extends Element> {
   ref: React.RefObject<T | null>

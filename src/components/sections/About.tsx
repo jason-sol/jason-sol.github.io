@@ -6,6 +6,7 @@ import { useReveal } from '../../hooks/useReveal'
 import { useScrollFrame } from '../../hooks/useScrollFrame'
 import { litWordCount, splitWords } from '../../lib/splitWords'
 import { quantize, smoothstep } from '../../lib/math'
+import { prefersReducedMotion } from '../../lib/motion'
 import { DissolvePortrait } from '../effects/DissolvePortrait'
 import { SectionLabel } from '../ui/SectionLabel'
 import { StatCounter } from '../ui/StatCounter'
@@ -15,12 +16,6 @@ import styles from './About.module.css'
 const DEVELOPED = 2
 // Matches the dissolve redraw epsilon; finer scroll deltas cannot change the drawing.
 const PROGRESS_STEP = 0.004
-
-function prefersReducedMotion(): boolean {
-  return typeof window !== 'undefined' && typeof window.matchMedia === 'function'
-    ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    : false
-}
 
 function RevealedStat({ stat, delay }: { stat: AboutStat; delay: number }) {
   const { ref, visible } = useReveal<HTMLDivElement>(delay)

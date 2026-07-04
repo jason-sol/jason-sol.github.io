@@ -3,15 +3,10 @@ import type { CSSProperties } from 'react'
 import { site } from '../../content/site'
 import { useScrollProgress } from '../../hooks/useScrollProgress'
 import { activePhaseIndex, hintOpacity, phaseStyle } from '../../lib/heroPhases'
+import { prefersReducedMotion } from '../../lib/motion'
 import { HeroBackdrop } from '../effects/HeroBackdrop'
 import { SegmentedText } from '../ui/SegmentedText'
 import styles from './Hero.module.css'
-
-function prefersReducedMotion(): boolean {
-  return typeof window !== 'undefined' && typeof window.matchMedia === 'function'
-    ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    : false
-}
 
 const toneClass = {
   high: styles.badgeHigh,

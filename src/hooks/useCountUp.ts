@@ -1,13 +1,8 @@
 import { useEffect, useState } from 'react'
 import { easeOutCubic } from '../lib/easing'
+import { prefersReducedMotion } from '../lib/motion'
 
 const DURATION_MS = 1400
-
-function prefersReducedMotion(): boolean {
-  return typeof window !== 'undefined' && typeof window.matchMedia === 'function'
-    ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    : false
-}
 
 /** Counts from 0 to `target` over 1400ms with an ease-out cubic curve, starting when `active`. */
 export function useCountUp(target: number, active = true): number {
