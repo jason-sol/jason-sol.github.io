@@ -62,14 +62,12 @@ export function Hero() {
               </div>
               {phase.pipeline && (
                 <div className={styles.pipeline}>
-                  {phase.pipeline.map((step, idx) => (
+                  {phase.pipeline.map((step, idx, steps) => (
                     <span key={step} className={styles.pipelineStepGroup}>
-                      <span
-                        className={idx === phase.pipeline!.length - 1 ? styles.pipelineActive : styles.pipelineStep}
-                      >
+                      <span className={idx === steps.length - 1 ? styles.pipelineActive : styles.pipelineStep}>
                         {step}
                       </span>
-                      {idx < phase.pipeline!.length - 1 && (
+                      {idx < steps.length - 1 && (
                         <span className={styles.pipelineArrow} aria-hidden="true">
                           →
                         </span>
