@@ -1,4 +1,5 @@
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
+import { Profiler } from 'react'
 import { site } from '../../content/site'
 import { splitWords } from '../../lib/splitWords'
 import statCounterStyles from '../ui/StatCounter.module.css'
@@ -40,4 +41,73 @@ it('renders the portrait in a figure with the content-model caption', () => {
   render(<About />)
   const figure = screen.getByRole('figure')
   expect(figure).toContainElement(screen.getByText(site.about.figCaption))
+})
+
+describe('scroll state quantization', () => {
+  let rafCallbacks: FrameRequestCallback[]
+  let rafSpy: ReturnType<typeof vi.spyOn>
+  let rectSpy: ReturnType<typeof vi.spyOn>
+  let top: number
+
+  beforeEach(() => {
+    rafCallbacks = []
+    rafSpy = vi.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => {
+      rafCallbacks.push(cb)
+      return rafCallbacks.length
+    })
+    rectSpy = vi.spyOn(Element.prototype, 'getBoundingClientRect').mockImplementation(
+      () =>
+        ({
+          top,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          width: 0,
+          height: 0,
+          x: 0,
+          y: 0,
+          toJSON() {},
+        }) as DOMRect,
+    )
+  })
+
+  afterEach(() => {
+    rafSpy.mockRestore()
+    rectSpy.mockRestore()
+  })
+
+  const flushRaf = () => {
+    act(() => {
+      const pending = rafCallbacks.splice(0)
+      pending.forEach((cb) => cb(0))
+    })
+  }
+
+  it('skips re-rendering for sub-epsilon scroll deltas but re-renders for real movement', () => {
+    let commits = 0
+    top = 402
+    render(
+      <Profiler id="about" onRender={() => commits++}>
+        <About />
+      </Profiler>,
+    )
+    flushRaf()
+
+    // Settling frame: React renders once more before bailing out on a first same-value update.
+    window.dispatchEvent(new Event('scroll'))
+    flushRaf()
+    const baseline = commits
+
+    // Sub-epsilon movement: same quantized portrait progress and lit word count.
+    top = 401.5
+    window.dispatchEvent(new Event('scroll'))
+    flushRaf()
+    expect(commits).toBe(baseline)
+
+    // Real movement: state must update.
+    top = 100
+    window.dispatchEvent(new Event('scroll'))
+    flushRaf()
+    expect(commits).toBeGreaterThan(baseline)
+  })
 })
