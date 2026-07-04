@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import { site } from '../../content/site'
 import { splitWords } from '../../lib/splitWords'
+import statCounterStyles from '../ui/StatCounter.module.css'
 import { About } from './About'
 
 it('uses id="about" as the section anchor', () => {
@@ -26,6 +27,13 @@ it('renders a StatCounter per about stat with its caption', () => {
   for (const stat of site.about.stats) {
     expect(screen.getByText(stat.caption)).toBeInTheDocument()
   }
+})
+
+it('styles the value of accent-flagged stats with the accent class', () => {
+  const { container } = render(<About />)
+  const accentCount = site.about.stats.filter((s) => s.accent).length
+  expect(accentCount).toBeGreaterThan(0)
+  expect(container.querySelectorAll(`.${statCounterStyles.valueAccent}`)).toHaveLength(accentCount)
 })
 
 it('renders the portrait in a figure with the content-model caption', () => {

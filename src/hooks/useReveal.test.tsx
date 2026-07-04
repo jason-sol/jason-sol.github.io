@@ -46,6 +46,16 @@ describe('useReveal', () => {
     expect(observer.elements.has(target)).toBe(false)
   })
 
+  it('clears a pending delay timer on unmount', () => {
+    vi.useFakeTimers()
+    const { container, unmount } = render(<Harness delay={200} />)
+    const [observer] = MockIntersectionObserver.instances
+    act(() => observer.trigger(container.firstElementChild!, true))
+    expect(vi.getTimerCount()).toBeGreaterThan(0)
+    unmount()
+    expect(vi.getTimerCount()).toBe(0)
+  })
+
   it('is visible immediately under reduced motion', () => {
     vi.stubGlobal('matchMedia', vi.fn().mockReturnValue({ matches: true }))
     render(<Harness />)

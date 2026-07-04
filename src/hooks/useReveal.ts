@@ -22,13 +22,14 @@ export function useReveal<T extends Element = HTMLDivElement>(delay = 0): UseRev
     const el = ref.current
     if (!el) return
 
+    let timerId: ReturnType<typeof setTimeout> | null = null
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (!entry.isIntersecting) return
           observer.unobserve(entry.target)
           if (delay > 0) {
-            setTimeout(() => setVisible(true), delay)
+            timerId = setTimeout(() => setVisible(true), delay)
           } else {
             setVisible(true)
           }
@@ -38,7 +39,10 @@ export function useReveal<T extends Element = HTMLDivElement>(delay = 0): UseRev
     )
     observer.observe(el)
 
-    return () => observer.disconnect()
+    return () => {
+      observer.disconnect()
+      if (timerId !== null) clearTimeout(timerId)
+    }
   }, [delay])
 
   return { ref, visible }

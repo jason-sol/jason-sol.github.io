@@ -23,7 +23,13 @@ function RevealedStat({ stat, delay }: { stat: AboutStat; delay: number }) {
   const { ref, visible } = useReveal<HTMLDivElement>(delay)
   return (
     <div ref={ref} className={`${styles.reveal} ${visible ? styles.revealVisible : ''}`}>
-      <StatCounter value={stat.value} suffix={stat.suffix} caption={stat.caption} active={visible} />
+      <StatCounter
+        value={stat.value}
+        suffix={stat.suffix}
+        accent={stat.accent}
+        caption={stat.caption}
+        active={visible}
+      />
     </div>
   )
 }

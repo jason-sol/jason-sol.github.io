@@ -10,6 +10,10 @@
   color: var(--text);
 }
 
+.valueAccent {
+  color: var(--accent);
+}
+
 .caption {
   font: 400 14px/1.5 var(--font-body);
   color: var(--text-dim);

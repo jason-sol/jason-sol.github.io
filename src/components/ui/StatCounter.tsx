@@ -4,16 +4,17 @@ import styles from './StatCounter.module.css'
 interface StatCounterProps {
   value: number
   suffix?: string
+  accent?: boolean
   caption: string
   active?: boolean
 }
 
-export function StatCounter({ value, suffix, caption, active = true }: StatCounterProps) {
+export function StatCounter({ value, suffix, accent = false, caption, active = true }: StatCounterProps) {
   const count = useCountUp(value, active)
 
   return (
     <div className={styles.stat}>
-      <div className={styles.value}>
+      <div className={accent ? `${styles.value} ${styles.valueAccent}` : styles.value}>
         {count}
         {suffix}
       </div>

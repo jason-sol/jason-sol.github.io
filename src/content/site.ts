@@ -35,6 +35,7 @@ export type TickerItem = { statKey: StatKey } | { text: string }
 export interface AboutStat {
   value: number
   suffix?: string
+  accent?: boolean
   caption: string
 }
 
@@ -179,7 +180,7 @@ export const site: Site = {
     stats: [
       { value: 70, caption: 'tests covering the secrets-management system I designed' },
       { value: 22, caption: 'frontend defects fixed across the radiology viewer' },
-      { value: 15, suffix: 'm', caption: 'automated CI run replacing 6–7 hours of manual regression' },
+      { value: 15, suffix: 'm', accent: true, caption: 'automated CI run replacing 6–7 hours of manual regression' },
     ],
   },
   stackGroups: [
