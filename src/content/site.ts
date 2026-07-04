@@ -67,6 +67,7 @@ export interface Project {
   title: string
   blurb: string
   tags: string[]
+  url?: string
 }
 
 export interface EducationContent {
