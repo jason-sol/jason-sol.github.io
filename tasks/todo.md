@@ -27,7 +27,7 @@
 
 ## Implementation (plan: docs/plans/hai-agentic-dev-2026-07-03-portfolio-website.md)
 
-- [ ] WG1 Walking skeleton + CI (tasks 1–5)
+- [x] WG1 Walking skeleton + CI (tasks 1–5)
 - [ ] WG2 Hero + Ticker (tasks 6–9) — parallel with WG3/WG4
 - [ ] WG3 About + Stack (tasks 10–13) — parallel with WG2/WG4
 - [ ] WG4 Experience + Projects + Education (tasks 14–16) — parallel with WG2/WG3
