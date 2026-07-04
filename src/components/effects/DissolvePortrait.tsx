@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { makeDissolveCells } from '../../lib/dissolve'
+import { cellSourceRect, coverCrop, makeDissolveCells } from '../../lib/dissolve'
 import type { DissolveCell } from '../../lib/dissolve'
 import styles from './DissolvePortrait.module.css'
 
@@ -30,17 +30,11 @@ export function DissolvePortrait({ src, progress }: DissolvePortraitProps) {
     if (Math.abs(frac - lastFracRef.current) < REDRAW_EPSILON) return
     lastFracRef.current = frac
 
-    const iw = img.naturalWidth
-    const ih = img.naturalHeight
-    const scale = Math.max(WIDTH / iw, HEIGHT / ih)
-    const sw = WIDTH / scale
-    const sh = HEIGHT / scale
-    const sx = (iw - sw) / 2
-    const sy = (ih - sh) / 2
+    const crop = coverCrop(img.naturalWidth, img.naturalHeight, WIDTH, HEIGHT)
 
     ctx.clearRect(0, 0, WIDTH, HEIGHT)
     ctx.filter = 'grayscale(1) brightness(.45) contrast(1.1)'
-    ctx.drawImage(img, sx, sy, sw, sh, 0, 0, WIDTH, HEIGHT)
+    ctx.drawImage(img, crop.sx, crop.sy, crop.sw, crop.sh, 0, 0, WIDTH, HEIGHT)
 
     const cw = WIDTH / COLS
     const ch = HEIGHT / ROWS
@@ -48,17 +42,8 @@ export function DissolvePortrait({ src, progress }: DissolvePortraitProps) {
       if (cell.th < frac) {
         const near = frac - cell.th < NEAR_EDGE_BAND
         ctx.filter = near ? 'brightness(1.7) saturate(1.2)' : 'none'
-        ctx.drawImage(
-          img,
-          sx + (cell.x * cw) / scale,
-          sy + (cell.y * ch) / scale,
-          cw / scale,
-          ch / scale,
-          cell.x * cw,
-          cell.y * ch,
-          cw + 0.5,
-          ch + 0.5,
-        )
+        const src = cellSourceRect(crop, cell.x, cell.y, cw, ch)
+        ctx.drawImage(img, src.x, src.y, src.w, src.h, cell.x * cw, cell.y * ch, cw + 0.5, ch + 0.5)
       }
     }
     ctx.filter = 'none'

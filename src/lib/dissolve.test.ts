@@ -1,4 +1,4 @@
-import { makeDissolveCells } from './dissolve'
+import { cellSourceRect, coverCrop, makeDissolveCells } from './dissolve'
 
 function seededRng(seed: number): () => number {
   let s = seed
@@ -7,6 +7,48 @@ function seededRng(seed: number): () => number {
     return s / 233280
   }
 }
+
+function expectCloseTo(actualObject: object, expected: Record<string, number>) {
+  const actual = actualObject as Record<string, number>
+  expect(Object.keys(actual).sort()).toEqual(Object.keys(expected).sort())
+  for (const key of Object.keys(expected)) {
+    expect(actual[key], key).toBeCloseTo(expected[key], 6)
+  }
+}
+
+describe('coverCrop', () => {
+  it('crops the sides of a wider-than-tall image', () => {
+    // 2000×1000 into 440×550: height limits, so the sides are cropped.
+    expectCloseTo(coverCrop(2000, 1000, 440, 550), { scale: 0.55, sx: 600, sy: 0, sw: 800, sh: 1000 })
+  })
+
+  it('crops the top and bottom of a taller-than-wide image', () => {
+    // 880×2200 into 440×550: width limits, so top/bottom are cropped.
+    expectCloseTo(coverCrop(880, 2200, 440, 550), { scale: 0.5, sx: 0, sy: 550, sw: 880, sh: 1100 })
+  })
+
+  it('uses the full image when aspect ratios match', () => {
+    expectCloseTo(coverCrop(880, 1100, 440, 550), { scale: 0.5, sx: 0, sy: 0, sw: 880, sh: 1100 })
+  })
+})
+
+describe('cellSourceRect', () => {
+  it('back-projects a destination cell into the cropped source image', () => {
+    const crop = coverCrop(2000, 1000, 440, 550) // scale 0.55, sx 600, sy 0
+    // Cell (2, 3) with 27.5×27.5 destination cells.
+    expectCloseTo(cellSourceRect(crop, 2, 3, 27.5, 27.5), {
+      x: 600 + (2 * 27.5) / 0.55,
+      y: (3 * 27.5) / 0.55,
+      w: 27.5 / 0.55,
+      h: 27.5 / 0.55,
+    })
+  })
+
+  it('maps cell (0, 0) to the crop origin', () => {
+    const crop = coverCrop(880, 2200, 440, 550) // sx 0, sy 550
+    expectCloseTo(cellSourceRect(crop, 0, 0, 27.5, 27.5), { x: 0, y: 550, w: 55, h: 55 })
+  })
+})
 
 describe('makeDissolveCells', () => {
   it('returns one cell per column/row combination', () => {
