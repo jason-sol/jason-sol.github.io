@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import { site } from '../../content/site'
 import { Experience } from './Experience'
+import styles from './Experience.module.css'
 
 it('uses id="experience" as the section anchor', () => {
   const { container } = render(<Experience />)
@@ -35,6 +36,23 @@ it('renders impact log rows resolved against the shared stats record', () => {
       expect(screen.getByText(item.label)).toBeInTheDocument()
       expect(screen.getByText(item.value)).toBeInTheDocument()
     }
+  }
+})
+
+it('accents only the impact-log values flagged accent in the content model', () => {
+  render(<Experience />)
+  const impactLog = site.roles.find((r) => r.impactLog)!.impactLog!
+  const accented = impactLog.filter((item) => item.accent)
+  expect(accented.length).toBe(2)
+  for (const item of accented) {
+    const value = 'statKey' in item ? site.stats[item.statKey].value : item.value
+    expect(screen.getByText(value)).toHaveClass(styles.impactValueAccent)
+  }
+  const plain = impactLog.filter((item) => !item.accent)
+  expect(plain.length).toBeGreaterThan(0)
+  for (const item of plain) {
+    const value = 'statKey' in item ? site.stats[item.statKey].value : item.value
+    expect(screen.getByText(value)).not.toHaveClass(styles.impactValueAccent)
   }
 })
 

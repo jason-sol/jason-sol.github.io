@@ -49,7 +49,7 @@ function RoleEntry({ role }: { role: Role }) {
               return (
                 <div key={i} data-impact-row className={styles.impactRow}>
                   <span className={styles.impactRowKey}>{label}</span>
-                  <span>{value}</span>
+                  <span className={item.accent ? styles.impactValueAccent : undefined}>{value}</span>
                 </div>
               )
             })}

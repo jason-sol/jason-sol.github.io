@@ -153,6 +153,10 @@
   color: var(--text-dim);
 }
 
+.impactValueAccent {
+  color: var(--accent);
+}
+
 @media (max-width: 1149px) {
   .roleWithImpact {
     grid-template-columns: 1fr;

@@ -51,7 +51,9 @@ export interface StackGroup {
   highlight?: boolean
 }
 
-export type ImpactItem = { statKey: StatKey } | { label: string; value: string }
+export type ImpactItem =
+  | { statKey: StatKey; accent?: boolean }
+  | { label: string; value: string; accent?: boolean }
 
 export interface Role {
   company: string
@@ -221,11 +223,11 @@ export const site: Site = {
         'Built the PostHog feature-flag Terraform pipeline — 11 flags, 3 environments, parallel matrix CI — and rolled an AI model-router service to production.',
       ],
       impactLog: [
-        { statKey: 'pullRequests' },
+        { statKey: 'pullRequests', accent: true },
         { statKey: 'repositories' },
         { statKey: 'services' },
         { label: 'languages', value: 'TS · Go · C#' },
-        { statKey: 'risks' },
+        { statKey: 'risks', accent: true },
       ],
     },
     {
