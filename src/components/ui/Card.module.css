@@ -25,12 +25,15 @@
   cursor: pointer;
 }
 
-.linked:hover {
-  border-color: var(--accent);
-  transform: translateY(-4px);
+.linked.cardVisible {
+  transition:
+    opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.3s,
+    border-color 0.3s;
 }
 
 .linked.cardVisible:hover {
+  border-color: var(--accent);
   transform: translateY(-4px);
 }
 
@@ -73,7 +76,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .card {
+  .card,
+  .linked.cardVisible {
     transition: border-color 0.3s;
   }
 
@@ -83,7 +87,7 @@
     transform: none;
   }
 
-  .linked:hover {
+  .linked.cardVisible:hover {
     transform: none;
   }
 }

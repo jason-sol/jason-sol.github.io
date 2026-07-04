@@ -51,9 +51,7 @@ export interface StackGroup {
   highlight?: boolean
 }
 
-export type ImpactItem =
-  | { statKey: StatKey; accent?: boolean }
-  | { label: string; value: string; accent?: boolean }
+export type ImpactItem = ({ statKey: StatKey } | { label: string; value: string }) & { accent?: boolean }
 
 export interface Role {
   company: string

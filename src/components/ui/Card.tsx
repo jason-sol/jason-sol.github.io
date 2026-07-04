@@ -1,3 +1,4 @@
+import type { RefCallback } from 'react'
 import { useReveal } from '../../hooks/useReveal'
 import styles from './Card.module.css'
 import { Tag } from './Tag'
@@ -13,6 +14,9 @@ interface CardProps {
 
 export function Card({ kicker, title, blurb, tags, url, delay = 0 }: CardProps) {
   const { ref, visible } = useReveal<HTMLElement>(delay)
+  const setRef: RefCallback<HTMLElement> = (el) => {
+    ref.current = el
+  }
   const className = `${styles.card} ${visible ? styles.cardVisible : ''} ${url ? styles.linked : ''}`
 
   const content = (
@@ -35,14 +39,14 @@ export function Card({ kicker, title, blurb, tags, url, delay = 0 }: CardProps) 
 
   if (url) {
     return (
-      <a ref={ref as unknown as React.RefObject<HTMLAnchorElement>} href={url} className={className}>
+      <a ref={setRef} href={url} className={className}>
         {content}
       </a>
     )
   }
 
   return (
-    <article ref={ref} className={className}>
+    <article ref={setRef} className={className}>
       {content}
     </article>
   )

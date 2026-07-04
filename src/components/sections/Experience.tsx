@@ -3,10 +3,14 @@ import type { ImpactItem, Role } from '../../content/site'
 import { site } from '../../content/site'
 import { useReveal } from '../../hooks/useReveal'
 import { useScrollFrame } from '../../hooks/useScrollFrame'
+import { quantize } from '../../lib/math'
 import { timelineProgress } from '../../lib/timeline'
 import { prefersReducedMotion } from '../../lib/motion'
 import { SectionLabel } from '../ui/SectionLabel'
 import styles from './Experience.module.css'
+
+// Finer scroll deltas cannot visibly move the 1000-unit timeline path.
+const PROGRESS_STEP = 0.004
 
 function resolveImpactItem(item: ImpactItem): { label: string; value: string } {
   if ('statKey' in item) {
@@ -20,7 +24,7 @@ function RoleEntry({ role }: { role: Role }) {
   const { ref, visible } = useReveal<HTMLDivElement>()
   const layoutClass = role.impactLog ? styles.roleWithImpact : styles.roleSimple
   return (
-    <div ref={ref} data-experience-role className={`${styles.role} ${layoutClass} ${visible ? styles.roleVisible : ''}`}>
+    <div ref={ref} className={`${styles.role} ${layoutClass} ${visible ? styles.roleVisible : ''}`}>
       <div>
         <div className={styles.roleHeader}>
           <span className={styles.company}>{role.company}</span>
@@ -69,7 +73,7 @@ export function Experience() {
     const section = sectionRef.current
     if (!section) return
     const rect = section.getBoundingClientRect()
-    setProgress(timelineProgress(rect.top, rect.height, window.innerHeight))
+    setProgress(quantize(timelineProgress(rect.top, rect.height, window.innerHeight), PROGRESS_STEP))
   })
 
   return (

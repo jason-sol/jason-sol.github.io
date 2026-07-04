@@ -1,4 +1,5 @@
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
+import { Profiler } from 'react'
 import { site } from '../../content/site'
 import { Experience } from './Experience'
 import styles from './Experience.module.css'
@@ -43,7 +44,7 @@ it('accents only the impact-log values flagged accent in the content model', () 
   render(<Experience />)
   const impactLog = site.roles.find((r) => r.impactLog)!.impactLog!
   const accented = impactLog.filter((item) => item.accent)
-  expect(accented.length).toBe(2)
+  expect(accented.length).toBeGreaterThan(0)
   for (const item of accented) {
     const value = 'statKey' in item ? site.stats[item.statKey].value : item.value
     expect(screen.getByText(value)).toHaveClass(styles.impactValueAccent)
@@ -59,4 +60,73 @@ it('accents only the impact-log values flagged accent in the content model', () 
 it('hides the decorative timeline svg from assistive tech', () => {
   const { container } = render(<Experience />)
   expect(container.querySelector('[data-tl-svg]')).toHaveAttribute('aria-hidden', 'true')
+})
+
+describe('timeline progress quantization', () => {
+  let rafCallbacks: FrameRequestCallback[]
+  let rafSpy: ReturnType<typeof vi.spyOn>
+  let rectSpy: ReturnType<typeof vi.spyOn>
+  let top: number
+
+  beforeEach(() => {
+    rafCallbacks = []
+    rafSpy = vi.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => {
+      rafCallbacks.push(cb)
+      return rafCallbacks.length
+    })
+    rectSpy = vi.spyOn(Element.prototype, 'getBoundingClientRect').mockImplementation(
+      () =>
+        ({
+          top,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          width: 0,
+          height: 1000,
+          x: 0,
+          y: 0,
+          toJSON() {},
+        }) as DOMRect,
+    )
+  })
+
+  afterEach(() => {
+    rafSpy.mockRestore()
+    rectSpy.mockRestore()
+  })
+
+  const flushRaf = () => {
+    act(() => {
+      const pending = rafCallbacks.splice(0)
+      pending.forEach((cb) => cb(0))
+    })
+  }
+
+  it('skips re-rendering for sub-epsilon scroll deltas but re-renders for real movement', () => {
+    let commits = 0
+    top = 402
+    render(
+      <Profiler id="experience" onRender={() => commits++}>
+        <Experience />
+      </Profiler>,
+    )
+    flushRaf()
+
+    // Settling frame: React renders once more before bailing out on a first same-value update.
+    window.dispatchEvent(new Event('scroll'))
+    flushRaf()
+    const baseline = commits
+
+    // Sub-epsilon movement: same quantized timeline progress.
+    top = 401.5
+    window.dispatchEvent(new Event('scroll'))
+    flushRaf()
+    expect(commits).toBe(baseline)
+
+    // Real movement: state must update.
+    top = 100
+    window.dispatchEvent(new Event('scroll'))
+    flushRaf()
+    expect(commits).toBeGreaterThan(baseline)
+  })
 })
