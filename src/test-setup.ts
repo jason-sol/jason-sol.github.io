@@ -37,3 +37,16 @@ export class MockIntersectionObserver implements IntersectionObserver {
 }
 
 vi.stubGlobal('IntersectionObserver', MockIntersectionObserver)
+
+/** jsdom's canvas getContext() is unimplemented and logs noisily; stub it with a no-op 2D context. */
+if (typeof HTMLCanvasElement !== 'undefined') {
+  const noopContext = new Proxy(
+    {},
+    {
+      get: (_target, prop) => (prop === 'canvas' ? undefined : () => undefined),
+      set: () => true,
+    },
+  ) as unknown as CanvasRenderingContext2D
+
+  vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue(noopContext)
+}
