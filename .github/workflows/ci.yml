@@ -2,11 +2,11 @@ name: ci
 on:
   push: { branches: [main] }
   pull_request:
-permissions: { contents: read, pages: write, id-token: write }
-concurrency: { group: pages, cancel-in-progress: false }
+permissions: { contents: read }
 jobs:
   checks:
     runs-on: ubuntu-latest
+    concurrency: { group: "ci-${{ github.ref }}", cancel-in-progress: true }
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -24,6 +24,8 @@ jobs:
     if: github.ref == 'refs/heads/main'
     needs: checks
     runs-on: ubuntu-latest
+    permissions: { pages: write, id-token: write }
+    concurrency: { group: pages, cancel-in-progress: false }
     environment: { name: github-pages, url: "${{ steps.deployment.outputs.page_url }}" }
     steps:
       - id: deployment
