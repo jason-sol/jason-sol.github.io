@@ -1,0 +1,203 @@
+.hero {
+  position: relative;
+  height: 380vh;
+}
+
+.sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.phaseName,
+.phase {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.phase {
+  padding: 0 8vw;
+}
+
+.eyebrowDim {
+  font: 500 13px var(--font-mono);
+  color: var(--text-dim);
+  letter-spacing: 0.3em;
+  margin-bottom: 34px;
+  overflow: hidden;
+}
+
+.eyebrowAccent {
+  font: 500 13px var(--font-mono);
+  color: var(--accent);
+  letter-spacing: 0.3em;
+  margin-bottom: 36px;
+}
+
+.riseEyebrow {
+  display: inline-block;
+  animation: rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
+  animation-name: global(rise);
+}
+
+.name {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(70px, 10.5vw, 168px);
+  line-height: 0.96;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.riseSub {
+  font: 400 17px var(--font-body);
+  color: var(--text-mid);
+  margin-top: 38px;
+}
+
+.headline {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(40px, 5.4vw, 86px);
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  max-width: 1200px;
+}
+
+.sub {
+  font: 400 17px var(--font-body);
+  color: var(--text-dim);
+  margin-top: 36px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .riseEyebrow {
+    animation: none;
+  }
+}
+
+.pipeline {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 44px;
+  font: 500 15px var(--font-mono);
+  color: var(--text-mid);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.pipelineStepGroup {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.pipelineStep {
+  padding: 10px 20px;
+  border: 1px solid var(--line-strong);
+  border-radius: 100px;
+}
+
+.pipelineActive {
+  padding: 10px 20px;
+  border: 1px solid var(--accent);
+  border-radius: 100px;
+  color: var(--accent);
+}
+
+.pipelineArrow {
+  color: var(--accent);
+}
+
+.badges {
+  display: flex;
+  gap: 12px;
+  margin-top: 44px;
+  flex-wrap: wrap;
+  justify-content: center;
+  font: 500 13px var(--font-mono);
+}
+
+.badge {
+  padding: 10px 18px;
+  border-radius: 6px;
+}
+
+.badgeHigh {
+  border: 1px solid var(--risk-high-border);
+  background: var(--risk-high-bg);
+  color: var(--risk-high-text);
+}
+
+.badgeWarn {
+  border: 1px solid var(--risk-warn-border);
+  background: var(--risk-warn-bg);
+  color: var(--risk-warn-text);
+}
+
+.badgeOk {
+  border: 1px solid var(--risk-ok-border);
+  background: var(--risk-ok-bg);
+  color: var(--risk-ok-text);
+}
+
+.rail {
+  position: absolute;
+  right: 44px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: center;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--line-strong);
+  transition: all 0.4s;
+}
+
+.dotActive {
+  background: var(--accent);
+  box-shadow: 0 0 10px var(--accent);
+  transform: scale(1.4);
+}
+
+.hint {
+  position: absolute;
+  bottom: 34px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  font: 500 11px var(--font-mono);
+  color: var(--text-faint);
+  letter-spacing: 0.3em;
+}
+
+.hintLine {
+  width: 1px;
+  height: 44px;
+  background: var(--accent);
+  display: block;
+  animation: 1.8s ease-in-out infinite;
+  animation-name: global(hintLine);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hintLine {
+    animation: none;
+  }
+}
