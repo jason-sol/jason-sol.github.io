@@ -1,0 +1,17 @@
+.stat {
+  border-top: 1px solid var(--line-strong);
+  padding-top: 20px;
+}
+
+.value {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 44px;
+  color: var(--text);
+}
+
+.caption {
+  font: 400 14px/1.5 var(--font-body);
+  color: var(--text-dim);
+  margin-top: 8px;
+}

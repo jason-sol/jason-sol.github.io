@@ -1,3 +1,4 @@
+import { About } from './components/sections/About'
 import { Contact } from './components/sections/Contact'
 import { Footer } from './components/sections/Footer'
 import { Hero } from './components/sections/Hero'
@@ -11,6 +12,7 @@ export function App() {
       <main>
         <Hero />
         <Ticker />
+        <About />
         <Contact />
       </main>
       <Footer />
