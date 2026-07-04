@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import type { RefObject } from 'react'
-
-const clamp = (v: number, a: number, b: number) => Math.max(a, Math.min(b, v))
+import { clamp } from '../lib/math'
 
 export function useScrollProgress(ref: RefObject<HTMLElement | null>): number {
   const [progress, setProgress] = useState(0)

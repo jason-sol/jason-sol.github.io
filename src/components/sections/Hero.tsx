@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import type { CSSProperties } from 'react'
 import { site } from '../../content/site'
 import { useScrollProgress } from '../../hooks/useScrollProgress'
-import { activePhaseIndex, phaseStyle } from '../../lib/heroPhases'
+import { activePhaseIndex, hintOpacity, phaseStyle } from '../../lib/heroPhases'
 import { HeroBackdrop } from '../effects/HeroBackdrop'
 import { SegmentedText } from '../ui/SegmentedText'
 import styles from './Hero.module.css'
@@ -24,7 +24,6 @@ export function Hero() {
   const progress = useScrollProgress(ref)
   const activeIndex = activePhaseIndex(progress)
   const reduced = prefersReducedMotion()
-  const hintFade = Math.max(0, Math.min(1, (progress - 0.02) / (0.1 - 0.02)))
 
   return (
     <div id="top" ref={ref} className={styles.hero}>
@@ -100,7 +99,7 @@ export function Hero() {
           ))}
         </div>
 
-        <div className={styles.hint} aria-hidden="true" style={{ opacity: 1 - hintFade }}>
+        <div className={styles.hint} aria-hidden="true" style={{ opacity: hintOpacity(progress) }}>
           <span>SCROLL</span>
           <span className={styles.hintLine} />
         </div>

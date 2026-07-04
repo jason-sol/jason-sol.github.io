@@ -7,7 +7,7 @@ import styles from './Ticker.module.css'
 function tickerText(item: TickerItem): string {
   if ('statKey' in item) {
     const stat = site.stats[item.statKey]
-    return `${stat.value} ${stat.label.toUpperCase()}`
+    return `${stat.value} ${stat.label}`
   }
   return item.text
 }

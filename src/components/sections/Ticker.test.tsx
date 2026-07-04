@@ -7,10 +7,10 @@ it('gives its container an accessible label', () => {
   expect(screen.getByRole('group', { name: 'Highlights' })).toBeInTheDocument()
 })
 
-it('shows each content-model stat exactly once to assistive tech', () => {
+it('shows each content-model stat exactly once to assistive tech, in source case', () => {
   render(<Ticker />)
   const stat = site.stats.pullRequests
-  const expected = `${stat.value} ${stat.label.toUpperCase()}`
+  const expected = `${stat.value} ${stat.label}`
 
   const matches = screen.getAllByText(expected)
   const visible = matches.filter((el) => !el.closest('[aria-hidden="true"]'))
