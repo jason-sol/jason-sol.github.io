@@ -82,7 +82,7 @@ The export has **no heading elements and no focus styles** — do not copy that.
 
 Config-only task — TDD exception per `using-hai-agentic-dev` (pure config). Verification is the build/dev commands.
 
-- [ ] **Step 1:** Write `package.json`:
+- [x] **Step 1:** Write `package.json`:
 
 ```json
 {
@@ -103,7 +103,7 @@ Config-only task — TDD exception per `using-hai-agentic-dev` (pure config). Ve
 }
 ```
 
-- [ ] **Step 2:** Install deps (creates lockfile):
+- [x] **Step 2:** Install deps (creates lockfile):
 
 ```bash
 npm i react react-dom
@@ -114,7 +114,7 @@ npm i -D vite @vitejs/plugin-react typescript @types/react @types/react-dom \
 npx playwright install chromium
 ```
 
-- [ ] **Step 3:** Write `vite.config.ts`:
+- [x] **Step 3:** Write `vite.config.ts`:
 
 ```ts
 /// <reference types="vitest/config" />
@@ -134,11 +134,11 @@ export default defineConfig({
 
 `src/test-setup.ts`: `import '@testing-library/jest-dom/vitest'`
 
-- [ ] **Step 4:** Write `tsconfig.json` (strict, bundler resolution, `"jsx": "react-jsx"`), `eslint.config.js` (typescript-eslint recommended + react-hooks + jsx-a11y), `.gitignore` (`node_modules`, `dist`, `test-results`, `playwright-report`), `index.html` with `<div id="root">`, fonts link from export line 12 (`display=swap` already in URL), `<title>Jason Solanki — Full-Stack Engineer</title>`, meta description, OG tags (og:title, og:description, og:url `https://jason-sol.github.io/`). `src/main.tsx` renders `<App/>`; `App.tsx` returns `<main>placeholder</main>`.
+- [x] **Step 4:** Write `tsconfig.json` (strict, bundler resolution, `"jsx": "react-jsx"`), `eslint.config.js` (typescript-eslint recommended + react-hooks + jsx-a11y), `.gitignore` (`node_modules`, `dist`, `test-results`, `playwright-report`), `index.html` with `<div id="root">`, fonts link from export line 12 (`display=swap` already in URL), `<title>Jason Solanki — Full-Stack Engineer</title>`, meta description, OG tags (og:title, og:description, og:url `https://jason-sol.github.io/`). `src/main.tsx` renders `<App/>`; `App.tsx` returns `<main>placeholder</main>`.
 
-- [ ] **Step 5:** Verify: `npm run build` → exits 0, `dist/` produced. `npm run lint` → 0 errors.
+- [x] **Step 5:** Verify: `npm run build` → exits 0, `dist/` produced. `npm run lint` → 0 errors.
 
-- [ ] **Step 6:** Commit — `chore: scaffold vite react-ts toolchain` (see Commit policy).
+- [x] **Step 6:** Commit — `chore: scaffold vite react-ts toolchain` (see Commit policy).
 
 ### Task 2: Design tokens + global styles
 
@@ -146,15 +146,15 @@ export default defineConfig({
 
 Values extracted from the export (lines 13–27): bg `#0b0b0e`, surface `#0e0e12`, line `#1c1c22`, line-strong `#26262e`, text `#e8e6e1`, text-mid `#a8a8b2`, text-dim `#8a8a93`, text-faint `#5a5a64`, accent `#57e6e0`; font stacks Unbounded / Space Grotesk / Instrument Serif / IBM Plex Mono.
 
-- [ ] **Step 1:** `tokens.css` — `:root { --bg: …; --accent: #57e6e0; … --font-display: 'Unbounded', sans-serif; … }` (one token per value above).
-- [ ] **Step 2:** `global.css` — margin reset, `background: var(--bg)`, `::selection`, `html { scroll-behavior: smooth }`, keyframes `rise|marquee|gridMove|driftA|driftB|glowPulse|blink|hintLine` copied from export lines 17–24, plus `@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto } }`, plus visible focus styles the export lacks: `:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px }` and a `.skip` link rule (visually hidden until focused).
-- [ ] **Step 3:** Verify: `npm run dev`, page background is `#0b0b0e`. Commit — `feat: add design tokens and global styles`.
+- [x] **Step 1:** `tokens.css` — `:root { --bg: …; --accent: #57e6e0; … --font-display: 'Unbounded', sans-serif; … }` (one token per value above).
+- [x] **Step 2:** `global.css` — margin reset, `background: var(--bg)`, `::selection`, `html { scroll-behavior: smooth }`, keyframes `rise|marquee|gridMove|driftA|driftB|glowPulse|blink|hintLine` copied from export lines 17–24, plus `@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto } }`, plus visible focus styles the export lacks: `:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px }` and a `.skip` link rule (visually hidden until focused).
+- [x] **Step 3:** Verify: `npm run dev`, page background is `#0b0b0e`. Commit — `feat: add design tokens and global styles`.
 
 ### Task 3: Content model (test-first)
 
 **Files:** Create `src/content/site.test.ts`, then `src/content/site.ts`
 
-- [ ] **Step 1: Write the failing test** `src/content/site.test.ts`:
+- [x] **Step 1: Write the failing test** `src/content/site.test.ts`:
 
 ```ts
 import { describe, expect, it } from 'vitest'
@@ -187,16 +187,16 @@ describe('Content model invariants', () => {
 })
 ```
 
-- [ ] **Step 2:** Run `npm test -- site` → FAIL (module not found).
-- [ ] **Step 3:** Write `src/content/site.ts`: interfaces `NavLink`, `HeroPhase`, `Stat`, `StackGroup`, `Role`, `Project`, `Education`, `Contact`, `Site`; shared `stats` record (pull requests, repositories, clinicians, sites, services, risks) that Ticker, Hero phases and the Experience impact log reference rather than restating (glossary "Stats duplication" resolution); ticker items are a discriminated union `{ statKey: keyof Site['stats'] } | { text: string }` so single-sourcing is type-enforced; export `const site: Site` with ALL copy transcribed from the export — nav (line 54–62, WORK→`#experience`), hero phases (81–120), ticker stats (139–144), about statement + 3 stats (146–172), stack groups (174–242), roles (244–303), projects (305–338), education (340–353), contact (355–373: email `jassol2013@gmail.com`, GitHub `https://github.com/jason-sol`, LinkedIn URL from line 365, **no phone**), footer strings.
-- [ ] **Step 4:** Run `npm test -- site` → PASS.
-- [ ] **Step 5:** Commit — `feat: add typed content model with invariant tests`.
+- [x] **Step 2:** Run `npm test -- site` → FAIL (module not found).
+- [x] **Step 3:** Write `src/content/site.ts`: interfaces `NavLink`, `HeroPhase`, `Stat`, `StackGroup`, `Role`, `Project`, `Education`, `Contact`, `Site`; shared `stats` record (pull requests, repositories, clinicians, sites, services, risks) that Ticker, Hero phases and the Experience impact log reference rather than restating (glossary "Stats duplication" resolution); ticker items are a discriminated union `{ statKey: keyof Site['stats'] } | { text: string }` so single-sourcing is type-enforced; export `const site: Site` with ALL copy transcribed from the export — nav (line 54–62, WORK→`#experience`), hero phases (81–120), ticker stats (139–144), about statement + 3 stats (146–172), stack groups (174–242), roles (244–303), projects (305–338), education (340–353), contact (355–373: email `jassol2013@gmail.com`, GitHub `https://github.com/jason-sol`, LinkedIn URL from line 365, **no phone**), footer strings.
+- [x] **Step 4:** Run `npm test -- site` → PASS.
+- [x] **Step 5:** Commit — `feat: add typed content model with invariant tests`.
 
 ### Task 4: Nav, Contact, Footer sections + first UI primitives
 
 **Files:** Create `src/components/ui/{SectionLabel,LinkButton}.tsx` (+ module.css + tests), `src/components/sections/{Nav,Contact,Footer}.tsx` (+ module.css + tests); modify `src/App.tsx`
 
-- [ ] **Step 1: Write failing tests.** Exemplar `Nav.test.tsx` (same pattern for Contact/Footer):
+- [x] **Step 1: Write failing tests.** Exemplar `Nav.test.tsx` (same pattern for Contact/Footer):
 
 ```tsx
 import { render, screen } from '@testing-library/react'
@@ -217,14 +217,14 @@ it('is a nav landmark', () => {
 
 Contact test asserts: `mailto:` href from content model, GitHub/LinkedIn links with `target="_blank"` + `rel="noreferrer"`. Footer test asserts: © line present, no phone-number pattern in rendered text.
 
-- [ ] **Step 2:** Run → FAIL. **Step 3:** Implement from export (Nav 53–62, Contact 355–366, Footer 368–372; footer drops the phone span). Add skip-link (`<a class="skip" href="#about">Skip to content</a>`) as first element in Nav. **Step 4:** Run → PASS. **Step 5:** Compose in `App.tsx` (`<Nav/><main>…</main>` with Contact inside main, Footer after). Verify visually with `npm run dev`. Commit — `feat: add nav, contact and footer sections`.
+- [x] **Step 2:** Run → FAIL. **Step 3:** Implement from export (Nav 53–62, Contact 355–366, Footer 368–372; footer drops the phone span). Add skip-link (`<a class="skip" href="#about">Skip to content</a>`) as first element in Nav. **Step 4:** Run → PASS. **Step 5:** Compose in `App.tsx` (`<Nav/><main>…</main>` with Contact inside main, Footer after). Verify visually with `npm run dev`. Commit — `feat: add nav, contact and footer sections`.
 
 ### Task 5: CI + deploy workflow + Playwright smoke
 
 **Files:** Create `.github/workflows/ci.yml`, `playwright.config.ts`, `e2e/smoke.spec.ts`
 
-- [ ] **Step 1:** `playwright.config.ts` — `webServer: { command: 'npm run preview', port: 4173, reuseExistingServer: true }`, project chromium, `use: { baseURL: 'http://localhost:4173' }`.
-- [ ] **Step 2: Write failing smoke test** `e2e/smoke.spec.ts`:
+- [x] **Step 1:** `playwright.config.ts` — `webServer: { command: 'npm run preview', port: 4173, reuseExistingServer: true }`, project chromium, `use: { baseURL: 'http://localhost:4173' }`.
+- [x] **Step 2: Write failing smoke test** `e2e/smoke.spec.ts`:
 
 ```ts
 import { expect, test } from '@playwright/test'
@@ -236,19 +236,19 @@ test('page renders nav and contact', async ({ page }) => {
 })
 ```
 
-- [ ] **Step 3:** `npm run build && npm run e2e` → PASS (smoke is green already at this point; it becomes the regression net for later groups).
-- [ ] **Step 4:** `.github/workflows/ci.yml`:
+- [x] **Step 3:** `npm run build && npm run e2e` → PASS (smoke is green already at this point; it becomes the regression net for later groups).
+- [x] **Step 4:** `.github/workflows/ci.yml`:
 
 ```yaml
 name: ci
 on:
   push: { branches: [main] }
   pull_request:
-permissions: { contents: read, pages: write, id-token: write }
-concurrency: { group: pages, cancel-in-progress: false }
+permissions: { contents: read }
 jobs:
   checks:
     runs-on: ubuntu-latest
+    concurrency: { group: "ci-${{ github.ref }}", cancel-in-progress: true }
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -266,13 +266,15 @@ jobs:
     if: github.ref == 'refs/heads/main'
     needs: checks
     runs-on: ubuntu-latest
+    permissions: { pages: write, id-token: write }
+    concurrency: { group: pages, cancel-in-progress: false }
     environment: { name: github-pages, url: "${{ steps.deployment.outputs.page_url }}" }
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
 ```
 
-- [ ] **Step 5:** Commit — `ci: add lint/test/build/e2e pipeline with pages deploy`.
+- [x] **Step 5:** Commit — `ci: add lint/test/build/e2e pipeline with pages deploy`.
 
 ---
 
