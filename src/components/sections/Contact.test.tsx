@@ -15,6 +15,12 @@ it('renders a mailto link for the content-model email', () => {
   )
 })
 
+it('excludes decorative arrows from the GitHub and LinkedIn accessible names', () => {
+  render(<Contact />)
+  expect(screen.getByRole('link', { name: 'GitHub' })).toBeInTheDocument()
+  expect(screen.getByRole('link', { name: 'LinkedIn' })).toBeInTheDocument()
+})
+
 it('opens GitHub and LinkedIn in a new tab with rel=noreferrer', () => {
   render(<Contact />)
   const github = screen.getByRole('link', { name: /github/i })

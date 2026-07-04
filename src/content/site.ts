@@ -1,6 +1,7 @@
 export interface NavLink {
   label: string
   href: string
+  arrow?: boolean
 }
 
 export type StatKey = 'pullRequests' | 'repositories' | 'clinicians' | 'sites' | 'services' | 'risks'
@@ -37,7 +38,7 @@ export interface AboutStat {
   caption: string
 }
 
-export interface About {
+export interface AboutContent {
   figCaption: string
   statement: string
   stats: AboutStat[]
@@ -67,7 +68,7 @@ export interface Project {
   tags: string[]
 }
 
-export interface Education {
+export interface EducationContent {
   institution: string
   degree: string
   period: string
@@ -75,7 +76,7 @@ export interface Education {
   reflectionEmphasis: string
 }
 
-export interface Contact {
+export interface ContactContent {
   title: HeadlineSegment[]
   tagline: string
   email: string
@@ -83,7 +84,7 @@ export interface Contact {
   linkedin: string
 }
 
-export interface Footer {
+export interface FooterContent {
   copyright: string
   location: string
   credit: string
@@ -96,13 +97,13 @@ export interface Site {
   stats: Record<StatKey, Stat>
   ticker: TickerItem[]
   sectionLabels: Record<'about' | 'stack' | 'experience' | 'projects' | 'education' | 'contact', string>
-  about: About
+  about: AboutContent
   stackGroups: StackGroup[]
   roles: Role[]
   projects: Project[]
-  education: Education
-  contact: Contact
-  footer: Footer
+  education: EducationContent
+  contact: ContactContent
+  footer: FooterContent
 }
 
 const stats: Record<StatKey, Stat> = {
@@ -120,7 +121,7 @@ export const site: Site = {
     { label: 'WORK', href: '#experience' },
     { label: 'STACK', href: '#stack' },
     { label: 'PROJECTS', href: '#projects' },
-    { label: 'CONTACT ↗', href: '#contact' },
+    { label: 'CONTACT', href: '#contact', arrow: true },
   ],
   heroPhases: [
     {

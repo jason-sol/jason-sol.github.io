@@ -9,6 +9,11 @@ it('renders all nav links from the content model with correct anchors', () => {
   expect(screen.getByRole('link', { name: /contact/i })).toHaveAttribute('href', '#contact')
 })
 
+it('excludes the decorative arrow from the contact link accessible name', () => {
+  render(<Nav />)
+  expect(screen.getByRole('link', { name: 'CONTACT' })).toHaveAttribute('href', '#contact')
+})
+
 it('is a nav landmark', () => {
   render(<Nav />)
   expect(screen.getByRole('navigation')).toBeInTheDocument()

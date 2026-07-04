@@ -15,6 +15,7 @@ export function Nav() {
         {site.nav.map((link) => (
           <a key={link.href} href={link.href}>
             {link.label}
+            {link.arrow && <span aria-hidden="true"> ↗</span>}
           </a>
         ))}
       </div>
