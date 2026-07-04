@@ -1,0 +1,22 @@
+.track {
+  display: flex;
+  gap: 56px;
+  width: max-content;
+  animation: 26s linear infinite;
+  animation-name: global(marquee);
+  font: 500 15px var(--font-mono);
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    animation-play-state: paused;
+  }
+}
+
+.group {
+  display: flex;
+  gap: 56px;
+  width: max-content;
+}
