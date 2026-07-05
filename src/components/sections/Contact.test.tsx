@@ -28,6 +28,20 @@ it('excludes decorative arrows from the GitHub and LinkedIn accessible names', (
   expect(screen.getByRole('link', { name: 'LinkedIn' })).toBeInTheDocument()
 })
 
+it('does not throw when the content model has no title segments', async () => {
+  vi.resetModules()
+  vi.doMock('../../content/site', async (importOriginal) => {
+    const actual = await importOriginal<typeof import('../../content/site')>()
+    return { site: { ...actual.site, contact: { ...actual.site.contact, title: [] } } }
+  })
+
+  const { Contact: ContactWithEmptyTitle } = await import('./Contact')
+  expect(() => render(<ContactWithEmptyTitle />)).not.toThrow()
+
+  vi.doUnmock('../../content/site')
+  vi.resetModules()
+})
+
 it('opens GitHub and LinkedIn in a new tab with rel=noreferrer', () => {
   render(<Contact />)
   const github = screen.getByRole('link', { name: /github/i })

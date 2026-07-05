@@ -22,7 +22,7 @@ export function Card({ kicker, title, blurb, tags, url, delay = 0 }: CardProps) 
   const content = (
     <>
       <div className={styles.kicker}>{kicker}</div>
-      <div className={styles.title}>{title}</div>
+      <h3 className={styles.title}>{title}</h3>
       <p className={styles.blurb}>{blurb}</p>
       <div className={styles.tags}>
         {tags.map((tag) => (
@@ -39,7 +39,7 @@ export function Card({ kicker, title, blurb, tags, url, delay = 0 }: CardProps) 
 
   if (url) {
     return (
-      <a ref={setRef} href={url} className={className}>
+      <a ref={setRef} href={url} aria-label={title} className={className}>
         {content}
       </a>
     )

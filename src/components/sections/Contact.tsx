@@ -7,8 +7,8 @@ import styles from './Contact.module.css'
 export function Contact() {
   // The closing period is the Orb's end Waypoint: the orb settles onto it and takes its place.
   const segments = site.contact.title
-  const period = segments[segments.length - 1]
-  const isPeriod = 'text' in period && period.text === '.'
+  const period = segments.length > 0 ? segments[segments.length - 1] : undefined
+  const isPeriod = period !== undefined && 'text' in period && period.text === '.'
   const leading = isPeriod ? segments.slice(0, -1) : segments
 
   return (

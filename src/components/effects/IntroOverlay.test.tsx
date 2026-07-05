@@ -43,6 +43,11 @@ describe('IntroOverlay', () => {
     expect(screen.getByText('CLICK TO SKIP')).toBeInTheDocument()
   })
 
+  it('marks the dialog as modal, since it visually covers the page and locks scroll', () => {
+    render(<IntroOverlay onDone={vi.fn()} />)
+    expect(screen.getByRole('dialog', { name: 'Intro' })).toHaveAttribute('aria-modal', 'true')
+  })
+
   it('calls onDone with played=true when clicked', () => {
     const onDone = vi.fn()
     render(<IntroOverlay onDone={onDone} />)

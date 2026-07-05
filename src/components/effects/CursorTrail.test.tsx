@@ -77,4 +77,26 @@ describe('CursorTrail', () => {
 
     expect(rafMock.mock.calls.length).toBe(callsBeforeHide + 1)
   })
+
+  it('reads the --accent custom property once (on mount) rather than on every frame', () => {
+    stubMatchMedia()
+    const getComputedStyleSpy = vi.spyOn(window, 'getComputedStyle')
+    const rafCallbacks: FrameRequestCallback[] = []
+    rafSpy.mockImplementation(((cb: FrameRequestCallback) => {
+      rafCallbacks.push(cb)
+      return rafCallbacks.length
+    }) as typeof window.requestAnimationFrame)
+
+    render(<CursorTrail />)
+    window.dispatchEvent(new PointerEvent('pointermove', { clientX: 0, clientY: 0 }))
+    window.dispatchEvent(new PointerEvent('pointermove', { clientX: 20, clientY: 20 }))
+    const callsAfterMount = getComputedStyleSpy.mock.calls.length
+
+    for (let f = 0; f < 10; f++) {
+      rafCallbacks.splice(0).forEach((cb) => cb(f))
+    }
+
+    expect(getComputedStyleSpy.mock.calls.length).toBe(callsAfterMount)
+    getComputedStyleSpy.mockRestore()
+  })
 })

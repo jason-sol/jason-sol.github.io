@@ -1,14 +1,20 @@
 import { useEffect, useRef, useState } from 'react'
 import { cellSourceRect, coverCrop, makeDissolveCells } from '../../lib/dissolve'
 import type { DissolveCell } from '../../lib/dissolve'
+import { SCROLL_EPSILON } from '../../lib/math'
 import styles from './DissolvePortrait.module.css'
 
 const COLS = 16
 const ROWS = 20
 const WIDTH = 440
 const HEIGHT = 550
+const MAX_DPR = 2
 const NEAR_EDGE_BAND = 0.06
-const REDRAW_EPSILON = 0.004
+const REDRAW_EPSILON = SCROLL_EPSILON
+
+function getDpr(): number {
+  return Math.min(MAX_DPR, (typeof window !== 'undefined' ? window.devicePixelRatio : 1) || 1)
+}
 
 interface DissolvePortraitProps {
   src: string
@@ -32,6 +38,9 @@ export function DissolvePortrait({ src, progress }: DissolvePortraitProps) {
 
     const crop = coverCrop(img.naturalWidth, img.naturalHeight, WIDTH, HEIGHT)
 
+    // The backing store is DPR-scaled for sharpness; drawing still happens in logical WIDTH/HEIGHT units.
+    const dpr = getDpr()
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
     ctx.clearRect(0, 0, WIDTH, HEIGHT)
     ctx.filter = 'grayscale(1) brightness(.45) contrast(1.1)'
     ctx.drawImage(img, crop.sx, crop.sy, crop.sw, crop.sh, 0, 0, WIDTH, HEIGHT)
@@ -58,6 +67,13 @@ export function DissolvePortrait({ src, progress }: DissolvePortraitProps) {
     draw(progress)
   }
 
+  // Belt-and-braces: a browser-cached image can already be `complete` before the
+  // `onLoad` listener attaches, in which case `load` never fires for this mount.
+  useEffect(() => {
+    if (imgRef.current?.complete) handleLoad()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   if (failed) {
     return <div data-testid="dissolve-fallback" className={styles.fallback} aria-hidden="true" />
   }
@@ -73,7 +89,13 @@ export function DissolvePortrait({ src, progress }: DissolvePortraitProps) {
         onLoad={handleLoad}
         onError={() => setFailed(true)}
       />
-      <canvas ref={canvasRef} width={WIDTH} height={HEIGHT} className={styles.canvas} aria-hidden="true" />
+      <canvas
+        ref={canvasRef}
+        width={WIDTH * getDpr()}
+        height={HEIGHT * getDpr()}
+        className={styles.canvas}
+        aria-hidden="true"
+      />
     </>
   )
 }

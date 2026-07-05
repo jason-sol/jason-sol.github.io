@@ -1,4 +1,4 @@
-import { smoothstep } from './math'
+import { linearStep } from './math'
 
 export interface PhaseStyle {
   opacity: number
@@ -17,8 +17,8 @@ const ranges: { in: [number, number]; out: [number, number] }[] = [
 
 export function phaseStyle(i: number, p: number): PhaseStyle {
   const range = ranges[i]
-  const fadeIn = i === 0 ? 1 : smoothstep(p, range.in[0], range.in[1])
-  const fadeOut = smoothstep(p, range.out[0], range.out[1])
+  const fadeIn = i === 0 ? 1 : linearStep(p, range.in[0], range.in[1])
+  const fadeOut = linearStep(p, range.out[0], range.out[1])
   const opacity = fadeIn * (1 - fadeOut)
   const translateY = (1 - fadeIn) * 70 - fadeOut * 70
   const scale = i === 0 ? 1 + fadeOut * 0.12 : 1
@@ -34,5 +34,5 @@ export function activePhaseIndex(p: number): number {
 }
 
 export function hintOpacity(p: number): number {
-  return 1 - smoothstep(p, 0.02, 0.1)
+  return 1 - linearStep(p, 0.02, 0.1)
 }

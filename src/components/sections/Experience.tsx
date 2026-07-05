@@ -4,13 +4,13 @@ import { site } from '../../content/site'
 import { useReducedMotion } from '../../hooks/useMediaQuery'
 import { useReveal } from '../../hooks/useReveal'
 import { useScrollFrame } from '../../hooks/useScrollFrame'
-import { quantize } from '../../lib/math'
+import { quantize, SCROLL_EPSILON } from '../../lib/math'
 import { timelineProgress } from '../../lib/timeline'
 import { SectionLabel } from '../ui/SectionLabel'
 import styles from './Experience.module.css'
 
 // Finer scroll deltas cannot visibly move the 1000-unit timeline path.
-const PROGRESS_STEP = 0.004
+const PROGRESS_STEP = SCROLL_EPSILON
 
 function resolveImpactItem(item: ImpactItem): { label: string; value: string } {
   if ('statKey' in item) {

@@ -35,6 +35,16 @@ it('renders as a link with the ↗ arrow when a url is given', () => {
   expect(container.textContent).toContain('↗')
 })
 
+it('renders the title as a heading', () => {
+  render(<Card {...baseProps} />)
+  expect(screen.getByRole('heading', { level: 3, name: baseProps.title })).toBeInTheDocument()
+})
+
+it('gives the link an accessible name of just the title, excluding the kicker/blurb/tags/arrow', () => {
+  render(<Card {...baseProps} url="https://example.com" />)
+  expect(screen.getByRole('link', { name: baseProps.title })).toBeInTheDocument()
+})
+
 it('applies the linked hover-affordance class only when a url is given', () => {
   const { container: withoutUrl } = render(<Card {...baseProps} />)
   const { container: withUrl } = render(<Card {...baseProps} url="https://example.com" />)

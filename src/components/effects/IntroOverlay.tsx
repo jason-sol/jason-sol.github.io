@@ -227,7 +227,7 @@ export function IntroOverlay({ onDone }: IntroOverlayProps) {
   return (
     // Clicking anywhere skips the intro; Escape is the keyboard equivalent (handled globally above).
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
-    <div role="dialog" aria-label="Intro" className={styles.overlay} onClick={() => finishRef.current()}>
+    <div role="dialog" aria-modal="true" aria-label="Intro" className={styles.overlay} onClick={() => finishRef.current()}>
       <div className={styles.columns} aria-hidden="true">
         {Array.from({ length: COLUMN_COUNT }).map((_, i) => (
           <div

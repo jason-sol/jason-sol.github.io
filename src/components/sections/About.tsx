@@ -6,7 +6,7 @@ import { useReducedMotion } from '../../hooks/useMediaQuery'
 import { useReveal } from '../../hooks/useReveal'
 import { useScrollFrame } from '../../hooks/useScrollFrame'
 import { litWordCount, splitWords } from '../../lib/splitWords'
-import { quantize, smoothstep } from '../../lib/math'
+import { linearStep, quantize, SCROLL_EPSILON } from '../../lib/math'
 import { DissolvePortrait } from '../effects/DissolvePortrait'
 import { SectionLabel } from '../ui/SectionLabel'
 import { StatCounter } from '../ui/StatCounter'
@@ -15,7 +15,7 @@ import styles from './About.module.css'
 // Dissolve cell thresholds top out around 1.06, so this leaves the portrait fully developed.
 const DEVELOPED = 2
 // Matches the dissolve redraw epsilon; finer scroll deltas cannot change the drawing.
-const PROGRESS_STEP = 0.004
+const PROGRESS_STEP = SCROLL_EPSILON
 
 function RevealedStat({ stat, delay }: { stat: AboutStat; delay: number }) {
   const { ref, visible } = useReveal<HTMLDivElement>(delay)
@@ -47,9 +47,9 @@ export function About() {
     if (!section || !wordsEl) return
     const vh = window.innerHeight
     const sectionTop = section.getBoundingClientRect().top
-    setPortraitProgress(quantize(smoothstep(vh * 0.92 - sectionTop, 0, vh * 0.85) * 1.35, PROGRESS_STEP))
+    setPortraitProgress(quantize(linearStep(vh * 0.92 - sectionTop, 0, vh * 0.85) * 1.35, PROGRESS_STEP))
     const wordsTop = wordsEl.getBoundingClientRect().top
-    setLit(litWordCount(smoothstep(vh * 0.85 - wordsTop, 0, vh * 0.55), words.length))
+    setLit(litWordCount(linearStep(vh * 0.85 - wordsTop, 0, vh * 0.55), words.length))
   })
 
   return (

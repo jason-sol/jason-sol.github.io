@@ -6,6 +6,7 @@ permissions: { contents: read }
 jobs:
   checks:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     concurrency: { group: "ci-${{ github.ref }}", cancel-in-progress: true }
     steps:
       - uses: actions/checkout@v4
@@ -18,12 +19,14 @@ jobs:
       - run: npm run build
       - run: npx playwright install chromium --with-deps
       - run: npm run e2e
-      - uses: actions/upload-pages-artifact@v3
+      - if: github.event_name == 'push'
+        uses: actions/upload-pages-artifact@v3
         with: { path: dist }
   deploy:
     if: github.ref == 'refs/heads/main'
     needs: checks
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     permissions: { pages: write, id-token: write }
     concurrency: { group: pages, cancel-in-progress: false }
     environment: { name: github-pages, url: "${{ steps.deployment.outputs.page_url }}" }

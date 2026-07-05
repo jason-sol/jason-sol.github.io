@@ -68,6 +68,8 @@
   line-height: 1.12;
   letter-spacing: -0.015em;
   max-width: 1200px;
+  /* Thinner than the hero name's outline-accent stroke, matching the export's phase-3 weight. */
+  --stroke-width: 2px;
 }
 
 .sub {

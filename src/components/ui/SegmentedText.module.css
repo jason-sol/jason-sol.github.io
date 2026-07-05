@@ -9,7 +9,7 @@
 
 .outlineAccent {
   color: transparent;
-  -webkit-text-stroke: 2.5px var(--accent);
+  -webkit-text-stroke: var(--stroke-width, 2.5px) var(--accent);
 }
 
 .serifAccent {

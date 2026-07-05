@@ -83,6 +83,24 @@ describe('Orb', () => {
     expect(() => render(<Orb introDone />)).not.toThrow()
   })
 
+  it('does not start its animation loop until the intro has finished', () => {
+    stubMatchMedia()
+    const { heroName, end, experienceDot } = renderAnchors()
+    extraAnchors = [heroName, end, experienceDot]
+    render(<Orb introDone={false} />)
+    expect(window.requestAnimationFrame).not.toHaveBeenCalled()
+  })
+
+  it('starts its animation loop once the intro finishes', () => {
+    stubMatchMedia()
+    const { heroName, end, experienceDot } = renderAnchors()
+    extraAnchors = [heroName, end, experienceDot]
+    const { rerender } = render(<Orb introDone={false} />)
+    expect(window.requestAnimationFrame).not.toHaveBeenCalled()
+    rerender(<Orb introDone />)
+    expect(window.requestAnimationFrame).toHaveBeenCalled()
+  })
+
   it('cancels its animation frame and removes its listeners on unmount', () => {
     stubMatchMedia()
     const { heroName, end, experienceDot } = renderAnchors()
@@ -138,7 +156,8 @@ describe('Orb', () => {
       return rafCallbacks.length
     }) as typeof window.requestAnimationFrame)
 
-    const { container } = render(<Orb introDone={false} />)
+    // Entrance replays only happen once the intro has finished, so the loop is already running.
+    const { container } = render(<Orb introDone />)
 
     // Hero's entrance replay remounts phase-0: the old anchor detaches and a new node appears.
     heroName.remove()
@@ -185,8 +204,20 @@ describe('Orb', () => {
     }
     expect(end.style.opacity).toBe('0')
 
+    // The period had no inline opacity before the Orb touched it, so unmount restores that (empty), not a hardcoded '1'.
     unmount()
-    expect(end.style.opacity).toBe('1')
+    expect(end.style.opacity).toBe('')
+  })
+
+  it('restores whatever inline opacity the period had before the Orb touched it, not a hardcoded value', () => {
+    stubMatchMedia()
+    const { heroName, end, experienceDot } = renderAnchors()
+    extraAnchors = [heroName, end, experienceDot]
+    end.style.opacity = '0.7'
+
+    const { unmount } = render(<Orb introDone />)
+    unmount()
+    expect(end.style.opacity).toBe('0.7')
   })
 
   it('pauses its loop while the document is hidden and resumes when visible again', () => {

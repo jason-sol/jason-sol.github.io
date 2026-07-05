@@ -14,3 +14,14 @@ it('duplicates its children for a seamless loop, marking the duplicate decorativ
   expect(hiddenCopies).toHaveLength(1)
   expect(hiddenCopies[0]).toHaveTextContent('Hello')
 })
+
+it('marks the aria-hidden duplicate inert, so it cannot receive focus or be found in-page', () => {
+  const { container } = render(
+    <Marquee>
+      <a href="#x">Hello</a>
+    </Marquee>,
+  )
+
+  const hiddenCopy = container.querySelector('[aria-hidden="true"]')
+  expect(hiddenCopy).toHaveAttribute('inert')
+})
