@@ -50,3 +50,27 @@ if (typeof HTMLCanvasElement !== 'undefined') {
 
   vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue(noopContext)
 }
+
+/** jsdom has no Web Animations API; this no-op stand-in supports `.cancel()` on the returned handle. */
+if (typeof Element !== 'undefined' && typeof Element.prototype.animate !== 'function') {
+  Element.prototype.animate = function (): Animation {
+    return {
+      cancel: () => {},
+      finish: () => {},
+      pause: () => {},
+      play: () => {},
+      reverse: () => {},
+      persist: () => {},
+      commitStyles: () => {},
+      updatePlaybackRate: () => {},
+      addEventListener: () => {},
+      removeEventListener: () => {},
+      dispatchEvent: () => false,
+      currentTime: 0,
+      playbackRate: 1,
+      playState: 'finished',
+      finished: Promise.resolve() as unknown as Animation['finished'],
+      ready: Promise.resolve() as unknown as Animation['ready'],
+    } as unknown as Animation
+  }
+}

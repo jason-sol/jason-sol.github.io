@@ -8,10 +8,14 @@ import { Nav } from './components/sections/Nav'
 import { Projects } from './components/sections/Projects'
 import { Stack } from './components/sections/Stack'
 import { Ticker } from './components/sections/Ticker'
+import { CursorTrail } from './components/effects/CursorTrail'
+import { IntroOverlay } from './components/effects/IntroOverlay'
 
 export function App() {
   return (
     <>
+      <IntroOverlay onDone={() => {}} />
+      <CursorTrail />
       <Nav />
       <main>
         <Hero />
