@@ -1,7 +1,9 @@
 import { useEffect, useRef } from 'react'
 import { useReducedMotion } from '../../hooks/useMediaQuery'
 import { usePausableRaf } from '../../hooks/usePausableRaf'
-import { orbEase, orbLerp, orbSegment } from '../../lib/orbPath'
+import { easeInOutCubic } from '../../lib/easing'
+import { phaseAnchorRatios } from '../../lib/heroPhases'
+import { orbLerp, orbSegment } from '../../lib/orbPath'
 import styles from './Orb.module.css'
 
 type Shape = 'circle' | 'diamond' | 'square'
@@ -42,11 +44,12 @@ const WAYPOINT_DEFS: WaypointDef[] = [
 
 // Hero phases don't move like normal document flow, so their Waypoints are placed
 // as a fraction of the sticky scroll story's travel distance rather than by rect.
+// The ratios come from the Hero phase timing table so retuning it moves both.
 const HERO_PHASE_RATIO: Record<string, number> = {
-  'hero-name': 0,
-  p1: 0.3,
-  p2: 0.555,
-  p3: 0.81,
+  'hero-name': phaseAnchorRatios[0],
+  p1: phaseAnchorRatios[1],
+  p2: phaseAnchorRatios[2],
+  p3: phaseAnchorRatios[3],
 }
 
 const REMEASURE_DELAY_MS = 1200
@@ -205,7 +208,7 @@ export function Orb({ introDone }: OrbProps) {
     } else {
       const zone = Math.min(vh * ZONE_VH_RATIO, Math.max(1, state.ats[i + 1] - state.ats[i]))
       const u = (scrollY - (state.ats[i + 1] - zone)) / zone
-      const eased = orbEase(u)
+      const eased = easeInOutCubic(u)
       const pa = posOf(defA)
       const pb = posOf(defB)
       tx = orbLerp(pa.x, pb.x, u, i)

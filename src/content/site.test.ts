@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { site } from './site'
+import { formatStat, resolveStat, site } from './site'
 
 describe('Content model invariants', () => {
   it('has exactly 4 hero phases', () => expect(site.heroPhases).toHaveLength(4))
@@ -24,5 +24,17 @@ describe('Content model invariants', () => {
       expect(p.tags.length).toBeGreaterThan(0)
       expect(p.blurb.length).toBeGreaterThan(20)
     }
+  })
+})
+
+describe('stat resolution', () => {
+  it('resolveStat returns the shared stat entity for a key', () => {
+    expect(resolveStat('clinicians')).toBe(site.stats.clinicians)
+    expect(resolveStat('pullRequests')).toBe(site.stats.pullRequests)
+  })
+
+  it('formatStat renders the canonical "value label" string', () => {
+    expect(formatStat('clinicians')).toBe('3,500+ clinicians')
+    expect(formatStat('repositories')).toBe('18 repositories')
   })
 })

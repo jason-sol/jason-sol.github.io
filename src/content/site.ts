@@ -117,6 +117,17 @@ const stats: Record<StatKey, Stat> = {
   risks: { value: '~8', label: 'risks remediated' },
 }
 
+/** The shared stat entity for a key. */
+export function resolveStat(key: StatKey): Stat {
+  return stats[key]
+}
+
+/** The canonical "value label" rendering of a stat (e.g. "3,500+ clinicians"). */
+export function formatStat(key: StatKey): string {
+  const stat = stats[key]
+  return `${stat.value} ${stat.label}`
+}
+
 export const site: Site = {
   brand: { label: 'JASON SOLANKI', href: '#top' },
   nav: [

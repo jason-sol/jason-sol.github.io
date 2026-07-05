@@ -1,15 +1,11 @@
 import { Fragment } from 'react'
 import type { TickerItem } from '../../content/site'
-import { site } from '../../content/site'
+import { formatStat, site } from '../../content/site'
 import { Marquee } from '../ui/Marquee'
 import styles from './Ticker.module.css'
 
 function tickerText(item: TickerItem): string {
-  if ('statKey' in item) {
-    const stat = site.stats[item.statKey]
-    return `${stat.value} ${stat.label}`
-  }
-  return item.text
+  return 'statKey' in item ? formatStat(item.statKey) : item.text
 }
 
 export function Ticker() {

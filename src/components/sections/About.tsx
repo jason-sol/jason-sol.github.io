@@ -5,8 +5,9 @@ import { site } from '../../content/site'
 import { useReducedMotion } from '../../hooks/useMediaQuery'
 import { useReveal } from '../../hooks/useReveal'
 import { useScrollFrame } from '../../hooks/useScrollFrame'
+import { portraitProgress, wordsProgress } from '../../lib/aboutProgress'
 import { litWordCount, splitWords } from '../../lib/splitWords'
-import { linearStep, quantize, SCROLL_EPSILON } from '../../lib/math'
+import { quantize, SCROLL_EPSILON } from '../../lib/math'
 import { DissolvePortrait } from '../effects/DissolvePortrait'
 import { SectionLabel } from '../ui/SectionLabel'
 import { StatCounter } from '../ui/StatCounter'
@@ -37,7 +38,7 @@ export function About() {
   const wordsRef = useRef<HTMLParagraphElement>(null)
   const words = useMemo(() => splitWords(site.about.statement), [])
   const reduced = useReducedMotion()
-  const [portraitProgress, setPortraitProgress] = useState(() => (reduced ? DEVELOPED : 0))
+  const [developProgress, setDevelopProgress] = useState(() => (reduced ? DEVELOPED : 0))
   const [lit, setLit] = useState(() => (reduced ? words.length : 0))
 
   useScrollFrame(() => {
@@ -47,9 +48,9 @@ export function About() {
     if (!section || !wordsEl) return
     const vh = window.innerHeight
     const sectionTop = section.getBoundingClientRect().top
-    setPortraitProgress(quantize(linearStep(vh * 0.92 - sectionTop, 0, vh * 0.85) * 1.35, PROGRESS_STEP))
+    setDevelopProgress(quantize(portraitProgress(sectionTop, vh), PROGRESS_STEP))
     const wordsTop = wordsEl.getBoundingClientRect().top
-    setLit(litWordCount(linearStep(vh * 0.85 - wordsTop, 0, vh * 0.55), words.length))
+    setLit(litWordCount(wordsProgress(wordsTop, vh), words.length))
   })
 
   return (
@@ -57,7 +58,7 @@ export function About() {
       <figure className={styles.figure}>
         <div className={styles.frame} aria-hidden="true" />
         <div data-orb-anchor="about" className={styles.corner} aria-hidden="true" />
-        <DissolvePortrait src={portrait} progress={portraitProgress} />
+        <DissolvePortrait src={portrait} progress={developProgress} />
         <figcaption className={styles.figCaption}>{site.about.figCaption}</figcaption>
       </figure>
       <div>

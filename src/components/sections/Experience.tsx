@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 import type { ImpactItem, Role } from '../../content/site'
-import { site } from '../../content/site'
+import { resolveStat, site } from '../../content/site'
 import { useReducedMotion } from '../../hooks/useMediaQuery'
 import { useReveal } from '../../hooks/useReveal'
 import { useScrollFrame } from '../../hooks/useScrollFrame'
@@ -14,8 +14,8 @@ const PROGRESS_STEP = SCROLL_EPSILON
 
 function resolveImpactItem(item: ImpactItem): { label: string; value: string } {
   if ('statKey' in item) {
-    const stat = site.stats[item.statKey]
-    return { label: stat.label, value: stat.value }
+    const { label, value } = resolveStat(item.statKey)
+    return { label, value }
   }
   return item
 }

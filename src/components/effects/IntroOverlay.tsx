@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { useReducedMotion } from '../../hooks/useMediaQuery'
+import { easeInOutQuad } from '../../lib/easing'
 import styles from './IntroOverlay.module.css'
 
 const AUTO_FINISH_MS = 3340
@@ -158,7 +159,7 @@ export function IntroOverlay({ onDone }: IntroOverlayProps) {
     let countRaf: number | null = null
     const tickCount = (t: number) => {
       const p = Math.min(1, Math.max(0, (t - t0 - 260) / 1560))
-      const eased = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2
+      const eased = easeInOutQuad(p)
       if (countEl) countEl.textContent = String(Math.round(eased * 100)).padStart(3, '0')
       if (p < 1) countRaf = requestAnimationFrame(tickCount)
     }
