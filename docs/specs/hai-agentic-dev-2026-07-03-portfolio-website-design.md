@@ -25,6 +25,7 @@ Rebuild the `Jason Solanki - Monolith.dc.html` design export as a production-gra
 | Hosting | GitHub Pages via Actions | Free, next to the code; repo renamed to `jason-sol.github.io` 2026-07-03, so Base path is `/` |
 | Testing | Vitest + Testing Library, Playwright (smoke, axe, reduced-motion) | "TEST-FIRST, ALWAYS" claim on the site must be true of the repo |
 | Contact details | Phone number removed from Footer | Jason's decision 2026-07-03; email + LinkedIn + GitHub remain |
+| Faint-text contrast | `--text-faint` lightened `#5a5a64` → `#82828e` | WCAG AA small-text compliance (2.88:1 → 5.18:1); Jason's decision 2026-07-06 — accessibility over strict export fidelity. The About word-reveal keeps the export's 0.13 dim state via an sr-only copy + documented single-element axe exclusion (pure-decoration exemption, WCAG 1.4.3) |
 
 ## Architecture
 

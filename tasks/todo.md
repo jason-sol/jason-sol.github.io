@@ -32,7 +32,7 @@
 - [x] WG3 About + Stack (tasks 10–13)
 - [x] WG4 Experience + Projects + Education (tasks 14–16)
 - [x] WG5 Page-level Effects (tasks 17–19)
-- [ ] WG6 Launch hardening (tasks 20–21)
+- [x] WG6 Launch hardening (tasks 20–21) — code complete; go-live steps gated on Jason
 
 ## Pre-launch (pending)
 

@@ -443,17 +443,17 @@ describe('activePhaseIndex', () => {
 
 **Files:** Create `e2e/a11y.spec.ts`, `e2e/reduced-motion.spec.ts`; modify `e2e/smoke.spec.ts`
 
-- [ ] **Step 1: Extend smoke (failing first):** the Hero h1 plus one visible h2 per content Section (About, Stack, Experience, Projects, Education, Contact) after scroll; nav WORK click lands on Experience (`await expect(page.locator('#experience')).toBeInViewport()`).
-- [ ] **Step 2:** `a11y.spec.ts` — `new AxeBuilder({ page }).analyze()` after intro dismissed → `expect(violations).toEqual([])`. Run, fix any violations (likely: contrast on `#5a5a64` small text → bump token toward `#6b6b76`; document any token change in the PR).
-- [ ] **Step 3:** `reduced-motion.spec.ts` — `test.use({ contextOptions: { reducedMotion: 'reduce' } })`: intro overlay never appears, all four Hero phase texts reachable, counters show final values immediately, no orb canvas in DOM.
-- [ ] **Step 4:** All e2e green locally + in CI. **Step 5:** Commit — `test: add axe and reduced-motion e2e coverage`.
+- [x] **Step 1: Extend smoke (failing first):** the Hero h1 plus one visible h2 per content Section (About, Stack, Experience, Projects, Education, Contact) after scroll; nav WORK click lands on Experience (`await expect(page.locator('#experience')).toBeInViewport()`).
+- [x] **Step 2:** `a11y.spec.ts` — `new AxeBuilder({ page }).analyze()` after intro dismissed → `expect(violations).toEqual([])`. Run, fix any violations (likely: contrast on `#5a5a64` small text → bump token toward `#6b6b76`; document any token change in the PR).
+- [x] **Step 3:** `reduced-motion.spec.ts` — `test.use({ contextOptions: { reducedMotion: 'reduce' } })`: intro overlay never appears, all four Hero phase texts reachable, counters show final values immediately, no orb canvas in DOM.
+- [x] **Step 4:** All e2e green locally + in CI. **Step 5:** Commit — `test: add axe and reduced-motion e2e coverage`.
 
 ### Task 21: Meta, README, go-live
 
 **Files:** Create `public/favicon.svg`, `README.md`; modify `index.html`
 
-- [ ] **Step 1:** Favicon (accent "JS." mark), verify OG/meta tags, add `<meta name="theme-color" content="#0b0b0e">`.
-- [ ] **Step 2:** Rewrite `README.md`: what the site is, architecture sketch, how to run/test, link to spec + plan (recruiter-facing — this file is part of the portfolio).
+- [x] **Step 1:** Favicon (accent "JS." mark), verify OG/meta tags, add `<meta name="theme-color" content="#0b0b0e">`.
+- [x] **Step 2:** Rewrite `README.md`: what the site is, architecture sketch, how to run/test, link to spec + plan (recruiter-facing — this file is part of the portfolio).
 - [ ] **Step 3: GATE — ask Jason explicitly:** "Flip repo public and enable Pages?" Only on his OK: `gh repo edit --visibility public --accept-visibility-change-consequences` then `gh api repos/jason-sol/jason-sol.github.io/pages -X POST -f build_type=workflow` (or confirm Pages source = GitHub Actions in settings).
 - [ ] **Step 4:** Merge to main (explicit instruction required), watch CI deploy, verify `https://jason-sol.github.io/` live, run Lighthouse (target ≥95 performance, 100 a11y). **Step 5:** Commit any fixes — `fix: post-launch polish`.
 
