@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import type { HeadlineSegment } from '../../content/site'
 import { site } from '../../content/site'
 import { Hero } from './Hero'
@@ -34,6 +34,30 @@ it('renders a progress-rail dot per hero phase', () => {
 it('hides the decorative backdrop from assistive tech', () => {
   const { container } = render(<Hero />)
   expect(container.querySelector('[data-hero-backdrop]')).toHaveAttribute('aria-hidden', 'true')
+})
+
+it("keeps the page's only h1 in the accessibility tree even once its phase has fully faded from view", () => {
+  const rafCallbacks: FrameRequestCallback[] = []
+  const rafSpy = vi.spyOn(window, 'requestAnimationFrame').mockImplementation(((cb: FrameRequestCallback) => {
+    rafCallbacks.push(cb)
+    return rafCallbacks.length
+  }) as typeof window.requestAnimationFrame)
+  // A scroll position past the whole 380vh Hero story: phase 0's opacity settles to 0.
+  const rectSpy = vi
+    .spyOn(Element.prototype, 'getBoundingClientRect')
+    .mockImplementation(
+      () => ({ top: -4232, left: 0, right: 0, bottom: 0, width: 0, height: 5000, x: 0, y: 0, toJSON() {} }) as DOMRect,
+    )
+
+  const { container } = render(<Hero />)
+  act(() => rafCallbacks.splice(0).forEach((cb) => cb(0)))
+
+  const h1 = container.querySelector('h1')!
+  const phaseNameWrapper = h1.closest('[data-entrance]') as HTMLElement
+  expect(phaseNameWrapper.style.visibility).not.toBe('hidden')
+
+  rafSpy.mockRestore()
+  rectSpy.mockRestore()
 })
 
 describe('entrance replay', () => {

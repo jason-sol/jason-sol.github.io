@@ -50,7 +50,9 @@
 }
 
 .word {
-  opacity: 0.13;
+  /* 0.4 is the floor for 3:1 contrast at this font size against --bg; below that the
+     not-yet-revealed statement text fails WCAG AA for large text. */
+  opacity: 0.4;
   transition: opacity 0.3s;
 }
 

@@ -36,7 +36,10 @@ export function Hero({ entranceKey = 0 }: HeroProps) {
           const { opacity, translateY, scale, blur } = phaseStyle(i, progress)
           const style: CSSProperties = {
             opacity,
-            visibility: opacity < 0.01 ? 'hidden' : 'visible',
+            // Phase 0 holds the page's only h1: it stays in the accessibility tree even at
+            // opacity 0 so a heading-navigation user always has a level-1 heading to reach.
+            // It's harmless visually — by the time it's fully faded it has also scrolled off-screen.
+            visibility: i === 0 || opacity >= 0.01 ? 'visible' : 'hidden',
             transform: `translateY(${translateY}px) scale(${scale})`,
             filter: reduced ? 'blur(0)' : `blur(${blur}px)`,
           }
