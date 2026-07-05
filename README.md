@@ -1,6 +1,6 @@
 # Jason Solanki — Portfolio
 
-Personal portfolio site for Jason Solanki, a full-stack engineer shipping production AI on medical imaging at Harrison.ai. Ten scroll-driven sections — hero, about, stack, experience, projects, education, contact — built as a single-page React app with no backend, deployed as a static site.
+Personal portfolio site for Jason Solanki, a full-stack engineer shipping production AI on medical imaging at Harrison.ai. Ten sections — Nav, Hero, Ticker, About, Stack, Experience, Projects, Education, Contact, Footer — built as a scroll-driven single-page React app with no backend, deployed as a static site.
 
 ## Architecture
 
@@ -11,7 +11,7 @@ Personal portfolio site for Jason Solanki, a full-stack engineer shipping produc
 - **`src/lib/`** — pure functions with no DOM dependency (`math`, `easing`, `dissolve`, `splitWords`, `timeline`, `heroPhases`, `orbPath`), each unit-tested in isolation.
 - **`src/components/ui/`** — small presentational primitives (`Card`, `Tag`, `LinkButton`, `Marquee`, `StatCounter`, `SectionLabel`, `SegmentedText`) reused across sections.
 
-The codebase was built test-first throughout: 214 unit tests (Vitest + React Testing Library) and three Playwright end-to-end suites (smoke, accessibility, reduced-motion).
+The codebase was built test-first throughout: 200+ unit tests (Vitest + React Testing Library) and three Playwright end-to-end suites (smoke, accessibility, reduced-motion) — run them yourself with the commands below.
 
 ## Running locally
 

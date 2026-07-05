@@ -62,7 +62,9 @@ export function About() {
       </figure>
       <div>
         <SectionLabel as="h2">{site.sectionLabels.about}</SectionLabel>
-        <p ref={wordsRef} className={styles.statement}>
+        {/* Assistive tech reads this plain copy; the word-by-word animated copy below is decoration. */}
+        <p className={styles.srOnly}>{site.about.statement}</p>
+        <p ref={wordsRef} aria-hidden="true" className={styles.statement}>
           {words.map((word, i) => (
             <span key={i} data-word className={i < lit ? styles.wordLit : styles.word}>
               {word}{' '}

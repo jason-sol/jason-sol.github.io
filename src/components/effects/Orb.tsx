@@ -118,7 +118,7 @@ export function Orb({ introDone }: OrbProps) {
     if (experienceDot) experienceDot.style.opacity = '0'
 
     const periodDef = resolved[resolved.length - 1]
-    const prevPeriodOpacity = periodDef.el.style.opacity ?? ''
+    const prevPeriodOpacity = periodDef.el.style.opacity
 
     // Remounted Sections (e.g. Hero's entrance replay) detach anchor nodes;
     // every re-measure heals stale references before positions are read.

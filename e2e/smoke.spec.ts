@@ -8,10 +8,38 @@ test('page renders nav and contact', async ({ page }) => {
   await expect(page.getByRole('link', { name: /github/i })).toBeVisible()
 })
 
-test('the declared favicon resolves without a 404', async ({ page, baseURL }) => {
+test('both declared favicons (svg + png fallback) resolve without a 404', async ({ page, baseURL }) => {
   await page.goto('/')
-  const response = await page.request.get(new URL('/favicon.svg', baseURL).toString())
-  expect(response.status()).toBe(200)
+  // The content-type check matters: the preview server's SPA fallback answers unknown
+  // paths with 200 + index.html, which would mask a missing icon file.
+  const icons: [string, string][] = [
+    ['/favicon.svg', 'image/svg+xml'],
+    ['/favicon.png', 'image/png'],
+  ]
+  for (const [icon, contentType] of icons) {
+    const response = await page.request.get(new URL(icon, baseURL).toString())
+    expect(response.status(), icon).toBe(200)
+    expect(response.headers()['content-type'], icon).toContain(contentType)
+  }
+})
+
+test('page load produces no console errors and no failed same-origin requests', async ({ page, baseURL }) => {
+  const consoleErrors: string[] = []
+  const failedRequests: string[] = []
+  page.on('console', (message) => {
+    if (message.type() === 'error') consoleErrors.push(message.text())
+  })
+  page.on('response', (response) => {
+    if (response.status() >= 400 && baseURL && response.url().startsWith(baseURL)) {
+      failedRequests.push(`${response.status()} ${response.url()}`)
+    }
+  })
+
+  await page.goto('/')
+  await dismissIntro(page)
+
+  expect(consoleErrors).toEqual([])
+  expect(failedRequests).toEqual([])
 })
 
 test('hero renders its h1, and every content section renders a visible h2 on scroll', async ({ page }) => {

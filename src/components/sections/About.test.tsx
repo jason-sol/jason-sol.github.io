@@ -23,6 +23,18 @@ it('splits the statement into one span per word', () => {
   expect(Array.from(spans).map((s) => s.textContent?.trim())).toEqual(words)
 })
 
+it('exposes the statement to assistive tech exactly once, via a plain copy', () => {
+  render(<About />)
+  // The word-by-word animated copy is decoration; a single plain-text copy carries the content.
+  expect(screen.getByText(site.about.statement)).toBeInTheDocument()
+})
+
+it('hides the animated word-span copy from assistive tech', () => {
+  const { container } = render(<About />)
+  const animatedCopy = container.querySelector('[data-word]')?.closest('p')
+  expect(animatedCopy).toHaveAttribute('aria-hidden', 'true')
+})
+
 it('renders a StatCounter per about stat with its caption', () => {
   render(<About />)
   for (const stat of site.about.stats) {
