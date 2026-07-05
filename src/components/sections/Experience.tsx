@@ -1,11 +1,11 @@
 import { useRef, useState } from 'react'
 import type { ImpactItem, Role } from '../../content/site'
 import { site } from '../../content/site'
+import { useReducedMotion } from '../../hooks/useMediaQuery'
 import { useReveal } from '../../hooks/useReveal'
 import { useScrollFrame } from '../../hooks/useScrollFrame'
 import { quantize } from '../../lib/math'
 import { timelineProgress } from '../../lib/timeline'
-import { prefersReducedMotion } from '../../lib/motion'
 import { SectionLabel } from '../ui/SectionLabel'
 import styles from './Experience.module.css'
 
@@ -66,10 +66,11 @@ function RoleEntry({ role }: { role: Role }) {
 
 export function Experience() {
   const sectionRef = useRef<HTMLElement>(null)
-  const [progress, setProgress] = useState(() => (prefersReducedMotion() ? 1 : 0))
+  const reduced = useReducedMotion()
+  const [progress, setProgress] = useState(() => (reduced ? 1 : 0))
 
   useScrollFrame(() => {
-    if (prefersReducedMotion()) return
+    if (reduced) return
     const section = sectionRef.current
     if (!section) return
     const rect = section.getBoundingClientRect()

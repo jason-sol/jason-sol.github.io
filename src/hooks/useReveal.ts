@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { prefersReducedMotion } from '../lib/motion'
+import { useReducedMotion } from './useMediaQuery'
 
 export interface UseRevealResult<T extends Element> {
   ref: React.RefObject<T | null>
@@ -9,10 +9,11 @@ export interface UseRevealResult<T extends Element> {
 /** Flips `visible` once the ref's element enters the viewport, after an optional delay (ms). */
 export function useReveal<T extends Element = HTMLDivElement>(delay = 0): UseRevealResult<T> {
   const ref = useRef<T>(null)
-  const [visible, setVisible] = useState(() => prefersReducedMotion())
+  const reduced = useReducedMotion()
+  const [triggered, setTriggered] = useState(false)
 
   useEffect(() => {
-    if (prefersReducedMotion()) return
+    if (reduced) return
 
     const el = ref.current
     if (!el) return
@@ -24,9 +25,9 @@ export function useReveal<T extends Element = HTMLDivElement>(delay = 0): UseRev
           if (!entry.isIntersecting) return
           observer.unobserve(entry.target)
           if (delay > 0) {
-            timerId = setTimeout(() => setVisible(true), delay)
+            timerId = setTimeout(() => setTriggered(true), delay)
           } else {
-            setVisible(true)
+            setTriggered(true)
           }
         })
       },
@@ -38,7 +39,7 @@ export function useReveal<T extends Element = HTMLDivElement>(delay = 0): UseRev
       observer.disconnect()
       if (timerId !== null) clearTimeout(timerId)
     }
-  }, [delay])
+  }, [delay, reduced])
 
-  return { ref, visible }
+  return { ref, visible: triggered || reduced }
 }

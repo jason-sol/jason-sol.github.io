@@ -1,15 +1,16 @@
 import { useEffect, useState } from 'react'
 import { easeOutCubic } from '../lib/easing'
-import { prefersReducedMotion } from '../lib/motion'
+import { useReducedMotion } from './useMediaQuery'
 
 const DURATION_MS = 1400
 
 /** Counts from 0 to `target` over 1400ms with an ease-out cubic curve, starting when `active`. */
 export function useCountUp(target: number, active = true): number {
-  const [value, setValue] = useState(() => (prefersReducedMotion() ? target : 0))
+  const reduced = useReducedMotion()
+  const [value, setValue] = useState(0)
 
   useEffect(() => {
-    if (!active || prefersReducedMotion()) return
+    if (!active || reduced) return
 
     let rafId: number
     const t0 = performance.now()
@@ -21,7 +22,7 @@ export function useCountUp(target: number, active = true): number {
     rafId = requestAnimationFrame(step)
 
     return () => cancelAnimationFrame(rafId)
-  }, [target, active])
+  }, [target, active, reduced])
 
-  return value
+  return reduced ? target : value
 }

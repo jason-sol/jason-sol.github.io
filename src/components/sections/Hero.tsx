@@ -3,7 +3,7 @@ import type { CSSProperties } from 'react'
 import { site } from '../../content/site'
 import { useScrollProgress } from '../../hooks/useScrollProgress'
 import { activePhaseIndex, hintOpacity, phaseStyle } from '../../lib/heroPhases'
-import { prefersReducedMotion } from '../../lib/motion'
+import { useReducedMotion } from '../../hooks/useMediaQuery'
 import { HeroBackdrop } from '../effects/HeroBackdrop'
 import { SegmentedText } from '../ui/SegmentedText'
 import styles from './Hero.module.css'
@@ -18,7 +18,7 @@ export function Hero() {
   const ref = useRef<HTMLDivElement>(null)
   const progress = useScrollProgress(ref)
   const activeIndex = activePhaseIndex(progress)
-  const reduced = prefersReducedMotion()
+  const reduced = useReducedMotion()
 
   return (
     <div id="top" ref={ref} className={styles.hero}>

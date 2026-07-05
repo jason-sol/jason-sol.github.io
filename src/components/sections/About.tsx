@@ -2,11 +2,11 @@ import { useMemo, useRef, useState } from 'react'
 import portrait from '../../assets/jason.jpg'
 import type { AboutStat } from '../../content/site'
 import { site } from '../../content/site'
+import { useReducedMotion } from '../../hooks/useMediaQuery'
 import { useReveal } from '../../hooks/useReveal'
 import { useScrollFrame } from '../../hooks/useScrollFrame'
 import { litWordCount, splitWords } from '../../lib/splitWords'
 import { quantize, smoothstep } from '../../lib/math'
-import { prefersReducedMotion } from '../../lib/motion'
 import { DissolvePortrait } from '../effects/DissolvePortrait'
 import { SectionLabel } from '../ui/SectionLabel'
 import { StatCounter } from '../ui/StatCounter'
@@ -36,11 +36,12 @@ export function About() {
   const sectionRef = useRef<HTMLElement>(null)
   const wordsRef = useRef<HTMLParagraphElement>(null)
   const words = useMemo(() => splitWords(site.about.statement), [])
-  const [portraitProgress, setPortraitProgress] = useState(() => (prefersReducedMotion() ? DEVELOPED : 0))
-  const [lit, setLit] = useState(() => (prefersReducedMotion() ? words.length : 0))
+  const reduced = useReducedMotion()
+  const [portraitProgress, setPortraitProgress] = useState(() => (reduced ? DEVELOPED : 0))
+  const [lit, setLit] = useState(() => (reduced ? words.length : 0))
 
   useScrollFrame(() => {
-    if (prefersReducedMotion()) return
+    if (reduced) return
     const section = sectionRef.current
     const wordsEl = wordsRef.current
     if (!section || !wordsEl) return
