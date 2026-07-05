@@ -3,7 +3,8 @@ import { defineConfig, devices } from '@playwright/test'
 export default defineConfig({
   testDir: 'e2e',
   webServer: {
-    command: 'npm run preview',
+    // Build first so e2e always runs against the current source, never a stale dist/.
+    command: 'npm run build && npm run preview',
     port: 4173,
     reuseExistingServer: !process.env.CI,
   },
