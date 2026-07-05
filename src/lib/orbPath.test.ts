@@ -1,4 +1,4 @@
-import { orbLerp, orbSegment } from './orbPath'
+import { orbEase, orbLerp, orbSegment } from './orbPath'
 
 describe('orbSegment', () => {
   const waypointYs = [0, 100, 300, 700]
@@ -21,6 +21,33 @@ describe('orbSegment', () => {
 
   it('returns 0 for an empty waypoint list', () => {
     expect(orbSegment(500, [])).toBe(0)
+  })
+})
+
+describe('orbEase', () => {
+  it('starts at 0', () => {
+    expect(orbEase(0)).toBe(0)
+  })
+
+  it('ends at 1', () => {
+    expect(orbEase(1)).toBe(1)
+  })
+
+  it('passes through 0.5 at the midpoint', () => {
+    expect(orbEase(0.5)).toBeCloseTo(0.5)
+  })
+
+  it('follows the cubic-in shape below the midpoint (4t^3)', () => {
+    expect(orbEase(0.25)).toBeCloseTo(4 * 0.25 ** 3) // 0.0625
+  })
+
+  it('follows the cubic-out shape above the midpoint (1 - (-2t+2)^3 / 2)', () => {
+    expect(orbEase(0.75)).toBeCloseTo(1 - 0.5 ** 3 / 2) // 0.9375
+  })
+
+  it('clamps inputs outside 0..1', () => {
+    expect(orbEase(-2)).toBe(0)
+    expect(orbEase(3)).toBe(1)
   })
 })
 

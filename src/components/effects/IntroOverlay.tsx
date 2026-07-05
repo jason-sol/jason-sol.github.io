@@ -8,7 +8,8 @@ const DOT_GAP = 62
 const COLUMN_COUNT = 5
 
 interface IntroOverlayProps {
-  onDone: () => void
+  /** `played` is true when the intro actually showed and finished, false when it was skipped outright. */
+  onDone: (played: boolean) => void
 }
 
 /** Skippable first-load Effect: counter, letter assembly, column wipe. */
@@ -34,7 +35,7 @@ export function IntroOverlay({ onDone }: IntroOverlayProps) {
 
   useEffect(() => {
     if (skip) {
-      onDoneRef.current()
+      onDoneRef.current(false)
       return
     }
 
@@ -199,7 +200,7 @@ export function IntroOverlay({ onDone }: IntroOverlayProps) {
       })
       dots.forEach((dot) => dot.remove())
       root.style.overflow = prevOverflow
-      onDoneRef.current()
+      onDoneRef.current(true)
     }
     finishRef.current = finish
 

@@ -29,11 +29,12 @@ describe('IntroOverlay', () => {
     expect(screen.queryByRole('dialog')).toBeNull()
   })
 
-  it('calls onDone once when skipped', () => {
+  it('calls onDone once with played=false when skipped', () => {
     vi.stubGlobal('matchMedia', vi.fn().mockReturnValue({ matches: true }))
     const onDone = vi.fn()
     render(<IntroOverlay onDone={onDone} />)
     expect(onDone).toHaveBeenCalledTimes(1)
+    expect(onDone).toHaveBeenCalledWith(false)
   })
 
   it('renders a dialog with a skip affordance', () => {
@@ -42,11 +43,12 @@ describe('IntroOverlay', () => {
     expect(screen.getByText('CLICK TO SKIP')).toBeInTheDocument()
   })
 
-  it('calls onDone when clicked', () => {
+  it('calls onDone with played=true when clicked', () => {
     const onDone = vi.fn()
     render(<IntroOverlay onDone={onDone} />)
     fireEvent.click(screen.getByRole('dialog'))
     expect(onDone).toHaveBeenCalledTimes(1)
+    expect(onDone).toHaveBeenCalledWith(true)
   })
 
   it('calls onDone on Escape keydown', () => {

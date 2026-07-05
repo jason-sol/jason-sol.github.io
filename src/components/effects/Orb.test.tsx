@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react'
+import { act, render } from '@testing-library/react'
 import { Orb } from './Orb'
 
 function stubMatchMedia({ reduced = false }: { reduced?: boolean } = {}) {
@@ -47,6 +47,7 @@ describe('Orb', () => {
     cafSpy.mockRestore()
     extraAnchors.forEach((el) => el.remove())
     Object.defineProperty(document, 'hidden', { value: false, configurable: true })
+    Object.defineProperty(window, 'scrollY', { value: 0, configurable: true })
   })
 
   it('renders no DOM when reduced motion is preferred', () => {
@@ -92,6 +93,38 @@ describe('Orb', () => {
     expect(window.cancelAnimationFrame).toHaveBeenCalled()
     expect(removeEventListenerSpy).toHaveBeenCalledWith('resize', expect.any(Function))
     removeEventListenerSpy.mockRestore()
+  })
+
+  it('hides the contact period while the orb sits on the end waypoint and shows it otherwise', () => {
+    stubMatchMedia()
+    const { heroName, end, experienceDot } = renderAnchors()
+    extraAnchors = [heroName, end, experienceDot]
+
+    const rafCallbacks: FrameRequestCallback[] = []
+    rafSpy.mockImplementation(((cb: FrameRequestCallback) => {
+      rafCallbacks.push(cb)
+      return rafCallbacks.length
+    }) as typeof window.requestAnimationFrame)
+
+    render(<Orb introDone />)
+
+    // Each frame re-schedules the next; the 0.16 smoothing needs a few frames to settle.
+    const runFrames = (count: number) => {
+      for (let f = 0; f < count; f++) {
+        act(() => rafCallbacks.splice(0).forEach((cb) => cb(f)))
+      }
+    }
+
+    // Past every measured waypoint: the active segment is the end waypoint and
+    // the orb glides onto the period until it is inside the near radius.
+    Object.defineProperty(window, 'scrollY', { value: 10_000, configurable: true })
+    runFrames(30)
+    expect(end.style.opacity).toBe('0')
+
+    // Back at the top: segment 0 is not the end waypoint, so the period returns.
+    Object.defineProperty(window, 'scrollY', { value: 0, configurable: true })
+    runFrames(1)
+    expect(end.style.opacity).toBe('1')
   })
 
   it('pauses its loop while the document is hidden and resumes when visible again', () => {

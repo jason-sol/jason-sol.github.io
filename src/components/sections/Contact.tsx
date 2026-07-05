@@ -5,13 +5,24 @@ import { SegmentedText } from '../ui/SegmentedText'
 import styles from './Contact.module.css'
 
 export function Contact() {
+  // The closing period is the Orb's end Waypoint: the orb settles onto it and takes its place.
+  const segments = site.contact.title
+  const period = segments[segments.length - 1]
+  const isPeriod = 'text' in period && period.text === '.'
+  const leading = isPeriod ? segments.slice(0, -1) : segments
+
   return (
     <section id="contact" className={styles.contact}>
       <div className={styles.glow} aria-hidden="true" />
       <div className={styles.inner}>
         <SectionLabel>{site.sectionLabels.contact}</SectionLabel>
         <h2 className={styles.title}>
-          <SegmentedText segments={site.contact.title} />
+          <SegmentedText segments={leading} />
+          {isPeriod && (
+            <span data-orb-anchor="end">
+              <SegmentedText segments={[period]} />
+            </span>
+          )}
         </h2>
         <p className={styles.tagline}>{site.contact.tagline}</p>
         <div className={styles.actions}>

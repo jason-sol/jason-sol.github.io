@@ -16,7 +16,12 @@ const toneClass = {
 
 const phaseOrbAnchor: Record<number, string> = { 1: 'p1', 2: 'p2', 3: 'p3' }
 
-export function Hero() {
+interface HeroProps {
+  /** Bump to remount the phase-0 content, replaying its CSS rise-in entrance. */
+  entranceKey?: number
+}
+
+export function Hero({ entranceKey = 0 }: HeroProps) {
   const ref = useRef<HTMLDivElement>(null)
   const progress = useScrollProgress(ref)
   const activeIndex = activePhaseIndex(progress)
@@ -38,7 +43,12 @@ export function Hero() {
 
           if (i === 0) {
             return (
-              <div key={phase.eyebrow} className={styles.phaseName} style={style}>
+              <div
+                key={`${phase.eyebrow}:${entranceKey}`}
+                data-entrance={entranceKey}
+                className={styles.phaseName}
+                style={style}
+              >
                 <div className={styles.eyebrowDim}>
                   <span className={styles.riseEyebrow}>{phase.eyebrow}</span>
                 </div>

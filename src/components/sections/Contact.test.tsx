@@ -7,6 +7,13 @@ it('renders its display title as a level-2 heading', () => {
   expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent("LET'S BUILD.")
 })
 
+it('carries the orb end Waypoint anchor on the closing period', () => {
+  const { container } = render(<Contact />)
+  const anchor = container.querySelector('[data-orb-anchor="end"]')
+  expect(anchor).not.toBeNull()
+  expect(anchor).toHaveTextContent('.')
+})
+
 it('renders a mailto link for the content-model email', () => {
   render(<Contact />)
   expect(screen.getByRole('link', { name: site.contact.email })).toHaveAttribute(

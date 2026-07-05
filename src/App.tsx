@@ -15,15 +15,22 @@ import { Orb } from './components/effects/Orb'
 
 export function App() {
   const [introDone, setIntroDone] = useState(false)
+  const [entranceKey, setEntranceKey] = useState(0)
+
+  const handleIntroDone = (played: boolean) => {
+    setIntroDone(true)
+    // Replay the hero entrance only when the intro actually covered it.
+    if (played) setEntranceKey((key) => key + 1)
+  }
 
   return (
     <>
-      {!introDone && <IntroOverlay onDone={() => setIntroDone(true)} />}
+      {!introDone && <IntroOverlay onDone={handleIntroDone} />}
       <CursorTrail />
       <Orb introDone={introDone} />
       <Nav />
       <main>
-        <Hero />
+        <Hero entranceKey={entranceKey} />
         <Ticker />
         <About />
         <Stack />

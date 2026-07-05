@@ -35,3 +35,22 @@ it('hides the decorative backdrop from assistive tech', () => {
   const { container } = render(<Hero />)
   expect(container.querySelector('[data-hero-backdrop]')).toHaveAttribute('aria-hidden', 'true')
 })
+
+describe('entrance replay', () => {
+  it('keeps the phase-0 content mounted when entranceKey is unchanged', () => {
+    const { container, rerender } = render(<Hero entranceKey={0} />)
+    const before = container.querySelector('h1')
+    rerender(<Hero entranceKey={0} />)
+    const after = container.querySelector('h1')
+    expect(after).toBe(before)
+  })
+
+  it('remounts the phase-0 content when entranceKey changes, replaying the rise animation', () => {
+    const { container, rerender } = render(<Hero entranceKey={0} />)
+    const before = container.querySelector('h1')
+    rerender(<Hero entranceKey={1} />)
+    const after = container.querySelector('h1')
+    expect(after).not.toBeNull()
+    expect(after).not.toBe(before)
+  })
+})
