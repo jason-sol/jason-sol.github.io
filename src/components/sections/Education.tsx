@@ -10,7 +10,7 @@ export function Education() {
   return (
     <section className={styles.education}>
       <div>
-        <div className={styles.labelWrap}>
+        <div data-orb-anchor="edu" className={styles.labelWrap}>
           <SectionLabel as="h2">{site.sectionLabels.education}</SectionLabel>
         </div>
         <div ref={leftRef} className={`${styles.reveal} ${leftVisible ? styles.revealVisible : ''}`}>

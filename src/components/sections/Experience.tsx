@@ -91,7 +91,7 @@ export function Experience() {
               className={styles.progressLine}
               style={{ strokeDasharray: 1000, strokeDashoffset: 1000 * (1 - progress) }}
             />
-            <circle cx={12} cy={1000 * progress} r={5} className={styles.dot} />
+            <circle data-orb-anchor="experience" cx={12} cy={1000 * progress} r={5} className={styles.dot} />
           </svg>
         </div>
         <div className={styles.roles}>

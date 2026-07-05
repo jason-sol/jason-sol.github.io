@@ -56,7 +56,7 @@ export function About() {
     <section id="about" ref={sectionRef} className={styles.about}>
       <figure className={styles.figure}>
         <div className={styles.frame} aria-hidden="true" />
-        <div className={styles.corner} aria-hidden="true" />
+        <div data-orb-anchor="about" className={styles.corner} aria-hidden="true" />
         <DissolvePortrait src={portrait} progress={portraitProgress} />
         <figcaption className={styles.figCaption}>{site.about.figCaption}</figcaption>
       </figure>

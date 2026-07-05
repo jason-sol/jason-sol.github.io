@@ -1,0 +1,29 @@
+.holder {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+}
+
+.ghost {
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0;
+}
+
+.wrap {
+  position: absolute;
+  left: 0;
+  top: 0;
+  will-change: transform;
+}
+
+.inner {
+  background: var(--accent);
+  box-shadow:
+    0 0 16px var(--accent),
+    0 0 40px color-mix(in oklab, var(--accent) 45%, transparent);
+}

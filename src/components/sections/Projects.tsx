@@ -6,7 +6,7 @@ import styles from './Projects.module.css'
 export function Projects() {
   return (
     <section id="projects" className={styles.projects}>
-      <div className={styles.labelWrap}>
+      <div data-orb-anchor="projects" className={styles.labelWrap}>
         <SectionLabel as="h2">{site.sectionLabels.projects}</SectionLabel>
       </div>
       <div data-projects-grid className={styles.grid}>

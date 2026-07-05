@@ -27,7 +27,7 @@ export function Stack() {
   return (
     <section id="stack" className={styles.stack}>
       <div data-stack-glow aria-hidden="true" className={styles.glowLine} />
-      <div className={styles.labelWrap}>
+      <div data-orb-anchor="stack" className={styles.labelWrap}>
         <SectionLabel as="h2">{site.sectionLabels.stack}</SectionLabel>
       </div>
       <div className={styles.rows}>

@@ -14,6 +14,8 @@ const toneClass = {
   ok: styles.badgeOk,
 } as const
 
+const phaseOrbAnchor: Record<number, string> = { 1: 'p1', 2: 'p2', 3: 'p3' }
+
 export function Hero() {
   const ref = useRef<HTMLDivElement>(null)
   const progress = useScrollProgress(ref)
@@ -40,7 +42,7 @@ export function Hero() {
                 <div className={styles.eyebrowDim}>
                   <span className={styles.riseEyebrow}>{phase.eyebrow}</span>
                 </div>
-                <h1 className={styles.name}>
+                <h1 data-orb-anchor="hero-name" className={styles.name}>
                   <SegmentedText segments={phase.headline} />
                 </h1>
                 {phase.sub && <p className={styles.riseSub}>{phase.sub}</p>}
@@ -50,7 +52,9 @@ export function Hero() {
 
           return (
             <div key={phase.eyebrow} className={styles.phase} style={style}>
-              <div className={styles.eyebrowAccent}>{phase.eyebrow}</div>
+              <div className={styles.eyebrowAccent} data-orb-anchor={phaseOrbAnchor[i]}>
+                {phase.eyebrow}
+              </div>
               <div className={styles.headline}>
                 <SegmentedText segments={phase.headline} />
               </div>
