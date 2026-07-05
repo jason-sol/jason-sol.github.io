@@ -384,22 +384,22 @@ describe('activePhaseIndex', () => {
 
 **Files:** Create `src/components/sections/Experience.tsx` (+ module.css + test); modify `src/App.tsx`
 
-- [ ] **Step 1: Failing test:** renders all roles (company, title, period) from Content model; `id="experience"` (nav WORK target — regression-locks the bug fix); impact-log rows match content stats; timeline SVG `aria-hidden`.
-- [ ] **Step 2:** FAIL. **Step 3:** Implement (export 244–303): SVG line progress via `useScrollProgress` on the section (`strokeDashoffset = 1000 * (1 - progress)`, export 607–612); responsive collapse in CSS. **Step 4:** PASS. **Step 5:** Commit — `feat: add experience timeline`.
+- [x] **Step 1: Failing test:** renders all roles (company, title, period) from Content model; `id="experience"` (nav WORK target — regression-locks the bug fix); impact-log rows match content stats; timeline SVG `aria-hidden`.
+- [x] **Step 2:** FAIL. **Step 3:** Implement (export 244–303): SVG line progress via `useScrollProgress` on the section (`strokeDashoffset = 1000 * (1 - progress)`, export 607–612); responsive collapse in CSS. **Step 4:** PASS. **Step 5:** Commit — `feat: add experience timeline`.
 
 ### Task 15: Projects grid + Card primitive
 
 **Files:** Create `src/components/ui/Card.tsx` (+ module.css + test), `src/components/sections/Projects.tsx` (+ test); modify `src/App.tsx`
 
-- [ ] **Step 1: Failing test:** renders 4 project Cards with kicker/title/blurb/tags from Content model; `id="projects"`; grid collapses <880px (class assertion); cards with no URL render as `<article>` not `<a>` (the export used `cursor:pointer` with no href — fix: only linkify when the Content model has a `url`).
-- [ ] **Step 2:** FAIL. **Step 3:** Implement (export 305–338). **Step 4:** PASS. **Step 5:** Commit — `feat: add projects section`.
+- [x] **Step 1: Failing test:** renders 4 project Cards with kicker/title/blurb/tags from Content model; `id="projects"`; grid collapses <880px (class assertion); cards with no URL render as `<article>` not `<a>` (the export used `cursor:pointer` with no href — fix: only linkify when the Content model has a `url`).
+- [x] **Step 2:** FAIL. **Step 3:** Implement (export 305–338). **Step 4:** PASS. **Step 5:** Commit — `feat: add projects section`.
 
 ### Task 16: Education section
 
 **Files:** Create `src/components/sections/Education.tsx` (+ test); modify `src/App.tsx`
 
-- [ ] **Step 1: Failing test:** degree, university, period, and the systems-thinking pull-quote render from Content model.
-- [ ] **Step 2:** FAIL. **Step 3:** Implement (export 340–353). **Step 4:** PASS. **Step 5:** Commit — `feat: add education section`.
+- [x] **Step 1: Failing test:** degree, university, period, and the systems-thinking pull-quote render from Content model.
+- [x] **Step 2:** FAIL. **Step 3:** Implement (export 340–353). **Step 4:** PASS. **Step 5:** Commit — `feat: add education section`.
 
 ---
 
