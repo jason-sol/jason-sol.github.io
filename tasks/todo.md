@@ -31,7 +31,7 @@
 - [x] WG2 Hero + Ticker (tasks 6–9)
 - [x] WG3 About + Stack (tasks 10–13)
 - [x] WG4 Experience + Projects + Education (tasks 14–16)
-- [ ] WG5 Page-level Effects (tasks 17–19) — after WG2–4
+- [x] WG5 Page-level Effects (tasks 17–19)
 - [ ] WG6 Launch hardening (tasks 20–21)
 
 ## Pre-launch (pending)

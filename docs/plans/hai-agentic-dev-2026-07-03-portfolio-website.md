@@ -414,22 +414,22 @@ describe('activePhaseIndex', () => {
 
 **Files:** Create `src/hooks/useMediaQuery.ts(+.test.ts)`
 
-- [ ] **Step 1: Failing test:** `useReducedMotion()` / `usePrefersFinePointer()` reflect mocked `matchMedia`, update on `change` event, remove listener on unmount.
-- [ ] **Step 2:** FAIL. **Step 3:** Implement one `useMediaQuery(query)` + the two named wrappers. **Step 4:** PASS. **Step 5:** Commit — `feat: add media query hooks`.
+- [x] **Step 1: Failing test:** `useReducedMotion()` / `usePrefersFinePointer()` reflect mocked `matchMedia`, update on `change` event, remove listener on unmount.
+- [x] **Step 2:** FAIL. **Step 3:** Implement one `useMediaQuery(query)` + the two named wrappers. **Step 4:** PASS. **Step 5:** Commit — `feat: add media query hooks`.
 
 ### Task 18: IntroOverlay + CursorTrail
 
 **Files:** Create `src/components/effects/IntroOverlay.tsx(+.test.tsx)`, `src/components/effects/CursorTrail.tsx(+.test.tsx)`; modify `src/App.tsx`
 
-- [ ] **Step 1: Failing tests:** IntroOverlay — not rendered when Reduced-motion or `location.hash` present; click calls `onDone`; **Escape keydown calls `onDone`** (spec addition); body overflow restored after done (assert style cleanup); auto-finishes at 3340ms (fake timers). CursorTrail — mounts canvas only when fine pointer AND no reduced motion; cancels rAF + removes listeners on unmount; **pauses its rAF loop while `document.hidden` (spec §Accessibility) — assert no new frames after a mocked `visibilitychange` to hidden, resumes on visible.**
-- [ ] **Step 2:** FAIL. **Step 3:** Implement — port export `_playIntro` (811–933) using Web Animations API as in export; CursorTrail from 619–669. **Step 4:** PASS. **Step 5:** Commit — `feat: add intro overlay and cursor trail effects`.
+- [x] **Step 1: Failing tests:** IntroOverlay — not rendered when Reduced-motion or `location.hash` present; click calls `onDone`; **Escape keydown calls `onDone`** (spec addition); body overflow restored after done (assert style cleanup); auto-finishes at 3340ms (fake timers). CursorTrail — mounts canvas only when fine pointer AND no reduced motion; cancels rAF + removes listeners on unmount; **pauses its rAF loop while `document.hidden` (spec §Accessibility) — assert no new frames after a mocked `visibilitychange` to hidden, resumes on visible.**
+- [x] **Step 2:** FAIL. **Step 3:** Implement — port export `_playIntro` (811–933) using Web Animations API as in export; CursorTrail from 619–669. **Step 4:** PASS. **Step 5:** Commit — `feat: add intro overlay and cursor trail effects`.
 
 ### Task 19: Orb (pure path math + component)
 
 **Files:** Create `src/lib/orbPath.ts(+.test.ts)`, `src/components/effects/Orb.tsx(+.test.tsx)`; modify `src/App.tsx`, section components (add `data-orb-anchor` per export)
 
-- [ ] **Step 1: Failing tests (pure fn):** `orbSegment(scrollY, waypointYs)` picks the last waypoint ≤ scrollY; `orbLerp(a, b, u)` applies the cubic ease and sine lateral swing (port export 744–775); u clamped; alternating swing direction by segment parity.
-- [ ] **Step 2:** FAIL. **Step 3:** Implement pure fns; then Orb component: measures Waypoints (`data-orb-anchor`, export waypoint list 675–686), rAF loop drives transform, ghost trail, morphs into Contact's final period; disabled entirely under Reduced-motion; re-measure on resize and after intro completes; **pause the rAF loop on `visibilitychange` → hidden, resume on visible (spec §Accessibility), with a component test asserting it.** **Step 4:** PASS + visual check full-page scroll. **Step 5:** Commit — `feat: add scroll-following orb effect`.
+- [x] **Step 1: Failing tests (pure fn):** `orbSegment(scrollY, waypointYs)` picks the last waypoint ≤ scrollY; `orbLerp(a, b, u)` applies the cubic ease and sine lateral swing (port export 744–775); u clamped; alternating swing direction by segment parity.
+- [x] **Step 2:** FAIL. **Step 3:** Implement pure fns; then Orb component: measures Waypoints (`data-orb-anchor`, export waypoint list 675–686), rAF loop drives transform, ghost trail, morphs into Contact's final period; disabled entirely under Reduced-motion; re-measure on resize and after intro completes; **pause the rAF loop on `visibilitychange` → hidden, resume on visible (spec §Accessibility), with a component test asserting it.** **Step 4:** PASS + visual check full-page scroll. **Step 5:** Commit — `feat: add scroll-following orb effect`.
 
 ---
 
