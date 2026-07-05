@@ -106,8 +106,21 @@ export function Orb({ introDone }: OrbProps) {
 
     const periodDef = resolved[resolved.length - 1]
 
+    // Remounted Sections (e.g. Hero's entrance replay) detach anchor nodes;
+    // every re-measure heals stale references before positions are read.
+    const reresolveDetached = () => {
+      resolved.forEach((def) => {
+        if (def.el.isConnected) return
+        const el = document.querySelector<AnchorElement>(`[data-orb-anchor="${def.id}"]`)
+        if (!el) return
+        def.el = el
+        if (def.id === 'experience') el.style.opacity = '0'
+      })
+    }
+
     let ats: number[] = []
     const measure = () => {
+      reresolveDetached()
       const vh = window.innerHeight
       const scrollY = window.scrollY
       const heroEl = document.getElementById('top')
@@ -228,7 +241,10 @@ export function Orb({ introDone }: OrbProps) {
       window.removeEventListener('resize', measure)
       document.removeEventListener('visibilitychange', handleVisibilityChange)
       if (rafId !== null) cancelAnimationFrame(rafId)
-      if (experienceDot) experienceDot.style.opacity = prevDotOpacity
+      // Restore against the current elements — re-measures may have swapped them.
+      const currentDot = resolved.find((def) => def.id === 'experience')?.el
+      if (currentDot) currentDot.style.opacity = prevDotOpacity
+      if (periodDef.end) periodDef.el.style.opacity = '1'
     }
   }, [reduced])
 

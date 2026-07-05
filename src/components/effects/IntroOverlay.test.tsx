@@ -74,6 +74,18 @@ describe('IntroOverlay', () => {
     expect(document.documentElement.style.overflow).toBe('')
   })
 
+  it('does not call onDone when unmounted mid-intro, but still cleans up', () => {
+    document.documentElement.style.overflow = ''
+    const onDone = vi.fn()
+    const { unmount } = render(<IntroOverlay onDone={onDone} />)
+    expect(document.documentElement.style.overflow).toBe('hidden')
+
+    unmount()
+
+    expect(onDone).not.toHaveBeenCalled()
+    expect(document.documentElement.style.overflow).toBe('')
+  })
+
   it('auto-finishes at 3340ms', () => {
     vi.useFakeTimers()
     const onDone = vi.fn()

@@ -185,9 +185,11 @@ export function IntroOverlay({ onDone }: IntroOverlayProps) {
       )
     })
 
+    // Teardown is separated from finish so unmount (e.g. StrictMode's dev
+    // mount/cleanup cycle) cleans up without reporting the intro as played.
     let done = false
-    const finish = () => {
-      if (done) return
+    const teardown = (): boolean => {
+      if (done) return false
       done = true
       clearTimeout(autoFinishTimer)
       if (countRaf !== null) cancelAnimationFrame(countRaf)
@@ -200,7 +202,10 @@ export function IntroOverlay({ onDone }: IntroOverlayProps) {
       })
       dots.forEach((dot) => dot.remove())
       root.style.overflow = prevOverflow
-      onDoneRef.current(true)
+      return true
+    }
+    const finish = () => {
+      if (teardown()) onDoneRef.current(true)
     }
     finishRef.current = finish
 
@@ -213,7 +218,7 @@ export function IntroOverlay({ onDone }: IntroOverlayProps) {
 
     return () => {
       window.removeEventListener('keydown', handleKeyDown)
-      finish()
+      teardown()
     }
   }, [skip])
 

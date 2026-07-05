@@ -127,6 +127,68 @@ describe('Orb', () => {
     expect(end.style.opacity).toBe('1')
   })
 
+  it('re-targets a remounted anchor after a re-measure instead of tracking the detached node', () => {
+    stubMatchMedia()
+    const { heroName, end, experienceDot } = renderAnchors()
+    extraAnchors = [heroName, end, experienceDot]
+
+    const rafCallbacks: FrameRequestCallback[] = []
+    rafSpy.mockImplementation(((cb: FrameRequestCallback) => {
+      rafCallbacks.push(cb)
+      return rafCallbacks.length
+    }) as typeof window.requestAnimationFrame)
+
+    const { container } = render(<Orb introDone={false} />)
+
+    // Hero's entrance replay remounts phase-0: the old anchor detaches and a new node appears.
+    heroName.remove()
+    const replacement = document.createElement('div')
+    replacement.setAttribute('data-orb-anchor', 'hero-name')
+    replacement.getBoundingClientRect = () =>
+      ({ top: 100, bottom: 100, left: 150, right: 200, width: 50, height: 0, x: 150, y: 100, toJSON() {} }) as DOMRect
+    document.body.appendChild(replacement)
+    extraAnchors.push(replacement)
+
+    // Any re-measure (resize / introDone / 1200ms timer) must heal the stale reference.
+    act(() => {
+      window.dispatchEvent(new Event('resize'))
+    })
+
+    for (let f = 0; f < 80; f++) {
+      act(() => rafCallbacks.splice(0).forEach((cb) => cb(f)))
+    }
+
+    const wrap = container.querySelector<HTMLElement>('[data-orb-holder]')!.lastElementChild as HTMLElement
+    const match = /translate\((-?[\d.]+)px,(-?[\d.]+)px\)/.exec(wrap.style.transform)
+    expect(match).not.toBeNull()
+    // hero-name waypoint: side right, offset 44, size 18 → x = 200 + 44 - 18/2 = 235, y = 100 - 9 = 91.
+    expect(Number(match![1])).toBeCloseTo(235, 0)
+    expect(Number(match![2])).toBeCloseTo(91, 0)
+  })
+
+  it('restores the period visibility on unmount', () => {
+    stubMatchMedia()
+    const { heroName, end, experienceDot } = renderAnchors()
+    extraAnchors = [heroName, end, experienceDot]
+
+    const rafCallbacks: FrameRequestCallback[] = []
+    rafSpy.mockImplementation(((cb: FrameRequestCallback) => {
+      rafCallbacks.push(cb)
+      return rafCallbacks.length
+    }) as typeof window.requestAnimationFrame)
+
+    const { unmount } = render(<Orb introDone />)
+
+    Object.defineProperty(window, 'scrollY', { value: 10_000, configurable: true })
+    for (let f = 0; f < 30; f++) {
+      act(() => rafCallbacks.splice(0).forEach((cb) => cb(f)))
+    }
+    expect(end.style.opacity).toBe('0')
+
+    unmount()
+    expect(end.style.opacity).toBe('1')
+  })
+
   it('pauses its loop while the document is hidden and resumes when visible again', () => {
     stubMatchMedia()
     const { heroName, end, experienceDot } = renderAnchors()
