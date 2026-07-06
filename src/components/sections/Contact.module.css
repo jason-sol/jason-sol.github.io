@@ -30,6 +30,11 @@
   margin: 40px 0 0;
 }
 
+/* The Orb hides the closing period while it settles onto it and "becomes" the period. */
+.period[data-orb-hidden] {
+  opacity: 0;
+}
+
 .tagline {
   font: 400 18px/1.6 var(--font-body);
   color: var(--text-dim);

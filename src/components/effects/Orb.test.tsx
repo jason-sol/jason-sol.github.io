@@ -68,14 +68,14 @@ describe('Orb', () => {
     expect(holder).toHaveAttribute('aria-hidden', 'true')
   })
 
-  it('hides the experience timeline dot while active and restores it on unmount', () => {
+  it('marks the experience timeline dot orb-hidden while active and clears it on unmount', () => {
     stubMatchMedia()
     const { heroName, end, experienceDot } = renderAnchors()
     extraAnchors = [heroName, end, experienceDot]
     const { unmount } = render(<Orb introDone />)
-    expect(experienceDot.style.opacity).toBe('0')
+    expect(experienceDot.hasAttribute('data-orb-hidden')).toBe(true)
     unmount()
-    expect(experienceDot.style.opacity).toBe('1')
+    expect(experienceDot.hasAttribute('data-orb-hidden')).toBe(false)
   })
 
   it('does not throw when fewer than two waypoints exist in the document', () => {
@@ -113,7 +113,7 @@ describe('Orb', () => {
     removeEventListenerSpy.mockRestore()
   })
 
-  it('hides the contact period while the orb sits on the end waypoint and shows it otherwise', () => {
+  it('marks the contact period orb-hidden while the orb sits on the end waypoint and clears it otherwise', () => {
     stubMatchMedia()
     const { heroName, end, experienceDot } = renderAnchors()
     extraAnchors = [heroName, end, experienceDot]
@@ -137,12 +137,12 @@ describe('Orb', () => {
     // the orb glides onto the period until it is inside the near radius.
     Object.defineProperty(window, 'scrollY', { value: 10_000, configurable: true })
     runFrames(30)
-    expect(end.style.opacity).toBe('0')
+    expect(end.hasAttribute('data-orb-hidden')).toBe(true)
 
     // Back at the top: segment 0 is not the end waypoint, so the period returns.
     Object.defineProperty(window, 'scrollY', { value: 0, configurable: true })
     runFrames(1)
-    expect(end.style.opacity).toBe('1')
+    expect(end.hasAttribute('data-orb-hidden')).toBe(false)
   })
 
   it('re-targets a remounted anchor after a re-measure instead of tracking the detached node', () => {
@@ -185,7 +185,7 @@ describe('Orb', () => {
     expect(Number(match![2])).toBeCloseTo(91, 0)
   })
 
-  it('restores the period visibility on unmount', () => {
+  it('clears the period orb-hidden marker on unmount', () => {
     stubMatchMedia()
     const { heroName, end, experienceDot } = renderAnchors()
     extraAnchors = [heroName, end, experienceDot]
@@ -202,22 +202,33 @@ describe('Orb', () => {
     for (let f = 0; f < 30; f++) {
       act(() => rafCallbacks.splice(0).forEach((cb) => cb(f)))
     }
-    expect(end.style.opacity).toBe('0')
+    expect(end.hasAttribute('data-orb-hidden')).toBe(true)
 
-    // The period had no inline opacity before the Orb touched it, so unmount restores that (empty), not a hardcoded '1'.
+    // The host owns its own visibility via CSS; the orb only toggles the marker, so
+    // unmount reverts the element to its stylesheet default by clearing the attribute.
     unmount()
-    expect(end.style.opacity).toBe('')
+    expect(end.hasAttribute('data-orb-hidden')).toBe(false)
   })
 
-  it('restores whatever inline opacity the period had before the Orb touched it, not a hardcoded value', () => {
+  it('never writes inline styles onto the elements it borrows', () => {
     stubMatchMedia()
     const { heroName, end, experienceDot } = renderAnchors()
     extraAnchors = [heroName, end, experienceDot]
-    end.style.opacity = '0.7'
 
-    const { unmount } = render(<Orb introDone />)
-    unmount()
-    expect(end.style.opacity).toBe('0.7')
+    const rafCallbacks: FrameRequestCallback[] = []
+    rafSpy.mockImplementation(((cb: FrameRequestCallback) => {
+      rafCallbacks.push(cb)
+      return rafCallbacks.length
+    }) as typeof window.requestAnimationFrame)
+
+    render(<Orb introDone />)
+    Object.defineProperty(window, 'scrollY', { value: 10_000, configurable: true })
+    for (let f = 0; f < 30; f++) {
+      act(() => rafCallbacks.splice(0).forEach((cb) => cb(f)))
+    }
+    // The dot started with inline opacity '1'; the orb must not have overwritten it.
+    expect(experienceDot.style.opacity).toBe('1')
+    expect(end.style.opacity).toBe('')
   })
 
   it('pauses its loop while the document is hidden and resumes when visible again', () => {
