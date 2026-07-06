@@ -7,9 +7,9 @@ export function Nav() {
       <a className="skip" href="#about">
         Skip to content
       </a>
-      <a className={styles.brand} href={site.brand.href}>
+      <a className={styles.brand} href={site.brand.href} aria-label={site.brand.label}>
         <span className={styles.dot} aria-hidden="true" />
-        {site.brand.label}
+        <span className={styles.brandLabel}>{site.brand.label}</span>
       </a>
       <div className={styles.links}>
         {site.nav.map((link) => (
