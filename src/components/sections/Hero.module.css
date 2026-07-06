@@ -55,6 +55,18 @@
   margin: 0;
 }
 
+.nameLine {
+  display: block;
+  overflow: hidden;
+  padding: 0 0.05em;
+}
+
+.nameLineInner {
+  display: inline-block;
+  animation: rise 0.95s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-name: global(rise);
+}
+
 .riseSub {
   font: 400 17px var(--font-body);
   color: var(--text-mid);
@@ -79,7 +91,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .riseEyebrow {
+  .riseEyebrow,
+  .nameLineInner {
     animation: none;
   }
 }

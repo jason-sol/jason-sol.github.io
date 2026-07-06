@@ -3,16 +3,16 @@ import type { HeadlineSegment } from '../../content/site'
 import { site } from '../../content/site'
 import { Hero } from './Hero'
 
-function headlineText(headline: HeadlineSegment[]): string {
-  return headline
-    .map((seg) => ('text' in seg ? seg.text : `${site.stats[seg.statKey].value} ${site.stats[seg.statKey].label}`))
-    .join('')
+function segmentText(seg: HeadlineSegment): string {
+  return 'text' in seg ? seg.text : `${site.stats[seg.statKey].value} ${site.stats[seg.statKey].label}`
 }
 
-it('renders every hero phase headline from the content model', () => {
+it('renders every hero phase headline segment from the content model', () => {
   const { container } = render(<Hero />)
   for (const phase of site.heroPhases) {
-    expect(container.textContent).toContain(headlineText(phase.headline))
+    for (const seg of phase.headline) {
+      expect(container.textContent).toContain(segmentText(seg))
+    }
   }
 })
 
@@ -24,6 +24,19 @@ it('uses id="top" as the scroll-story anchor', () => {
 it('renders the page name as the only level-1 heading', () => {
   render(<Hero />)
   expect(screen.getByRole('heading', { level: 1 })).toBeInTheDocument()
+})
+
+it('gives the h1 an accessible name with real whitespace between the words', () => {
+  render(<Hero />)
+  expect(screen.getByRole('heading', { level: 1, name: 'JASON SOLANKI' })).toBeInTheDocument()
+})
+
+it('stacks each phase-0 headline segment in its own block line wrapper', () => {
+  const { container } = render(<Hero />)
+  const lines = container.querySelectorAll('h1 [data-name-line]')
+  expect(lines).toHaveLength(site.heroPhases[0].headline.length)
+  const texts = Array.from(lines).map((line) => line.textContent?.trim())
+  expect(texts).toEqual(site.heroPhases[0].headline.map((seg) => segmentText(seg)))
 })
 
 it('renders a progress-rail dot per hero phase', () => {

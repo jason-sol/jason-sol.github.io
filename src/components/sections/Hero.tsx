@@ -1,11 +1,12 @@
-import { useRef } from 'react'
+import { Fragment, useRef } from 'react'
 import type { CSSProperties } from 'react'
-import { site } from '../../content/site'
+import type { HeadlineSegment } from '../../content/site'
+import { formatStat, site } from '../../content/site'
 import { useScrollProgress } from '../../hooks/useScrollProgress'
 import { activePhaseIndex, hintOpacity, phaseStyle } from '../../lib/heroPhases'
 import { useReducedMotion } from '../../hooks/useMediaQuery'
 import { HeroBackdrop } from '../effects/HeroBackdrop'
-import { SegmentedText } from '../ui/SegmentedText'
+import { SegmentedText, segmentClass } from '../ui/SegmentedText'
 import styles from './Hero.module.css'
 
 const toneClass = {
@@ -15,6 +16,36 @@ const toneClass = {
 } as const
 
 const phaseOrbAnchor: Record<number, string> = { 1: 'p1', 2: 'p2', 3: 'p3' }
+
+// Matches the export: JASON rises at .15s, SOLANKI at .3s.
+const NAME_LINE_BASE_DELAY_S = 0.15
+const NAME_LINE_STAGGER_S = 0.15
+
+/**
+ * The name headline stacks each segment as its own block line (the flat inline
+ * rendering used by the other phases overflows the viewport). Each line clips
+ * its rise animation inside an overflow-hidden wrapper; the whitespace text
+ * node between lines keeps the h1's accessible name "JASON SOLANKI".
+ */
+function StackedNameLines({ segments }: { segments: HeadlineSegment[] }) {
+  return (
+    <>
+      {segments.map((seg, i) => (
+        <Fragment key={i}>
+          {i > 0 && ' '}
+          <span data-name-line className={styles.nameLine}>
+            <span
+              className={seg.style ? `${styles.nameLineInner} ${segmentClass[seg.style]}` : styles.nameLineInner}
+              style={{ animationDelay: `${NAME_LINE_BASE_DELAY_S + i * NAME_LINE_STAGGER_S}s` }}
+            >
+              {'text' in seg ? seg.text : formatStat(seg.statKey)}
+            </span>
+          </span>
+        </Fragment>
+      ))}
+    </>
+  )
+}
 
 interface HeroProps {
   /** Bump to remount the phase-0 content, replaying its CSS rise-in entrance. */
@@ -56,7 +87,7 @@ export function Hero({ entranceKey = 0 }: HeroProps) {
                   <span className={styles.riseEyebrow}>{phase.eyebrow}</span>
                 </div>
                 <h1 data-orb-anchor="hero-name" className={styles.name}>
-                  <SegmentedText segments={phase.headline} />
+                  <StackedNameLines segments={phase.headline} />
                 </h1>
                 {phase.sub && <p className={styles.riseSub}>{phase.sub}</p>}
               </div>

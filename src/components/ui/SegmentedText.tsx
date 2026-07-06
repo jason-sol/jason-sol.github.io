@@ -3,7 +3,8 @@ import type { HeadlineSegment, HeadlineStyle } from '../../content/site'
 import { formatStat } from '../../content/site'
 import styles from './SegmentedText.module.css'
 
-const segmentClass: Record<HeadlineStyle, string> = {
+/** Shared style-variant classes; also consumed by Hero's stacked phase-0 name lines. */
+export const segmentClass: Record<HeadlineStyle, string> = {
   accent: styles.accent,
   outline: styles.outline,
   'outline-accent': styles.outlineAccent,

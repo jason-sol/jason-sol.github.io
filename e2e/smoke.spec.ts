@@ -64,6 +64,15 @@ test('hero renders its h1, and every content section renders a visible h2 on scr
   await expect(contactHeading).toBeVisible()
 })
 
+test('the hero name fits within the viewport (stacked lines, no clipping)', async ({ page }) => {
+  await page.goto('/')
+  await page.evaluate(() => document.fonts.ready)
+  const box = await page.getByRole('heading', { level: 1 }).boundingBox()
+  const viewport = page.viewportSize()
+  expect(box).not.toBeNull()
+  expect(box!.width).toBeLessThanOrEqual(viewport!.width)
+})
+
 test('nav WORK link lands on the Experience section', async ({ page }) => {
   await page.goto('/')
   await dismissIntro(page)
