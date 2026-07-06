@@ -115,13 +115,13 @@ export function Orb({ introDone }: OrbProps) {
     })
     if (resolved.length < 2) return
 
-    // The orb replaces the Experience timeline's own dot while it's active.
+    // The orb replaces the Experience timeline's own dot while it's active. Hosts own
+    // their hidden appearance via CSS ([data-orb-hidden]); the orb only toggles the marker,
+    // so there is no previous inline value to capture and restore.
     const experienceDot = resolved.find((def) => def.id === 'experience')?.el
-    const prevDotOpacity = experienceDot?.style.opacity ?? ''
-    if (experienceDot) experienceDot.style.opacity = '0'
+    experienceDot?.setAttribute('data-orb-hidden', '')
 
     const periodDef = resolved[resolved.length - 1]
-    const prevPeriodOpacity = periodDef.el.style.opacity
 
     // Remounted Sections (e.g. Hero's entrance replay) detach anchor nodes;
     // every re-measure heals stale references before positions are read.
@@ -131,7 +131,7 @@ export function Orb({ introDone }: OrbProps) {
         const el = document.querySelector<AnchorElement>(`[data-orb-anchor="${def.id}"]`)
         if (!el) return
         def.el = el
-        if (def.id === 'experience') el.style.opacity = '0'
+        if (def.id === 'experience') el.setAttribute('data-orb-hidden', '')
       })
     }
 
@@ -173,10 +173,9 @@ export function Orb({ introDone }: OrbProps) {
       clearTimeout(remeasureTimer)
       window.removeEventListener('resize', measure)
       animRef.current = null
-      // Restore against the current elements — re-measures may have swapped them.
-      const currentDot = resolved.find((def) => def.id === 'experience')?.el
-      if (currentDot) currentDot.style.opacity = prevDotOpacity
-      if (periodDef.end) periodDef.el.style.opacity = prevPeriodOpacity
+      // Clear the markers against the current elements — re-measures may have swapped them.
+      resolved.find((def) => def.id === 'experience')?.el.removeAttribute('data-orb-hidden')
+      if (periodDef.end) periodDef.el.removeAttribute('data-orb-hidden')
     }
   }, [reduced])
 
@@ -254,7 +253,7 @@ export function Orb({ introDone }: OrbProps) {
     // The orb "becomes" the closing period once it settles near the final Waypoint.
     if (state.periodDef.end) {
       const near = Boolean(defA.end) && Math.hypot(state.px - periodPos.x, state.py - periodPos.y) < PERIOD_NEAR_PX
-      state.periodDef.el.style.opacity = near ? '0' : '1'
+      state.periodDef.el.toggleAttribute('data-orb-hidden', near)
     }
   }
 

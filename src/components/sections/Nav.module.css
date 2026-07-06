@@ -49,3 +49,26 @@
 .links a:hover {
   color: var(--accent);
 }
+
+/* Narrow screens: tighten the bar so the section links never clip. */
+@media (max-width: 600px) {
+  .nav {
+    padding: 18px 20px;
+  }
+
+  .links {
+    gap: 18px;
+  }
+}
+
+/* Very narrow: drop the brand wordmark to just the pulsing dot (the link keeps its
+   accessible name via aria-label) so the four section links fit on one line. */
+@media (max-width: 460px) {
+  .brandLabel {
+    display: none;
+  }
+
+  .links {
+    gap: 14px;
+  }
+}

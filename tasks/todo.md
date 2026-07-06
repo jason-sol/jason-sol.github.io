@@ -44,8 +44,11 @@ All six work groups: two-stage reviewed (spec + quality) with fix loops. Mode B 
 - [ ] Flip repo visibility private → public + enable Pages (Actions source) — needs explicit OK; deploy job on main fails until Pages is enabled (expected)
 - [ ] After go-live: verify https://jason-sol.github.io/ + Lighthouse
 
-## Deferred follow-ups (non-blocking, post-launch)
+## Post-launch polish (done 2026-07-06, branch fix/polish-orb-nav)
 
-- Orb imperatively mutates DOM owned by Experience/Contact (opacity save/restore) — Mode B flagged; make declarative via data-attr + host CSS. Parked intentionally.
-- Nav overflows at 375px (brand wraps, CONTACT clips) — below spec's supported widths; clean mobile nav adaptation.
-- Minor review nits already logged in PRs (DPR mid-session change, data-hook for the axe exclusion selector).
+- [x] Orb DOM ownership made declarative via `data-orb-hidden` + host CSS (removed opacity save/restore bookkeeping). Mode B item resolved.
+- [x] Nav wordmark collapses to the dot at ≤460px (aria-label keeps the link named); no clipping/overflow at 375px.
+
+## Deferred follow-ups (non-blocking)
+
+- Minor review nits logged in PRs (DPR mid-session canvas change, data-hook for the axe exclusion selector).

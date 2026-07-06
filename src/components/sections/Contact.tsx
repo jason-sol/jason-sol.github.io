@@ -19,7 +19,7 @@ export function Contact() {
         <h2 className={styles.title}>
           <SegmentedText segments={leading} />
           {isPeriod && (
-            <span data-orb-anchor="end">
+            <span className={styles.period} data-orb-anchor="end">
               <SegmentedText segments={[period]} />
             </span>
           )}
