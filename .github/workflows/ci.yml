@@ -2,6 +2,7 @@ name: ci
 on:
   push: { branches: [main] }
   pull_request:
+  workflow_dispatch:
 permissions: { contents: read }
 jobs:
   checks:
@@ -9,8 +10,8 @@ jobs:
     timeout-minutes: 15
     concurrency: { group: "ci-${{ github.ref }}", cancel-in-progress: true }
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
         with: { node-version: 22, cache: npm }
       - run: npm ci
       - run: npm run lint
@@ -19,8 +20,8 @@ jobs:
       - run: npm run build
       - run: npx playwright install chromium --with-deps
       - run: npm run e2e
-      - if: github.event_name == 'push'
-        uses: actions/upload-pages-artifact@v3
+      - if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v5
         with: { path: dist }
   deploy:
     if: github.ref == 'refs/heads/main'
@@ -32,4 +33,4 @@ jobs:
     environment: { name: github-pages, url: "${{ steps.deployment.outputs.page_url }}" }
     steps:
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
