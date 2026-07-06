@@ -1,0 +1,26 @@
+.track {
+  display: flex;
+  width: max-content;
+  animation: 26s linear infinite;
+  animation-name: global(marquee);
+  font: 500 15px var(--font-mono);
+  color: var(--accent);
+  white-space: nowrap;
+  /* Visual casing only — source text keeps its natural case for screen readers. */
+  text-transform: uppercase;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    animation-play-state: paused;
+  }
+}
+
+.group {
+  display: flex;
+  gap: 56px;
+  width: max-content;
+  /* Trailing gap makes each group's width exactly half the track, so the
+     -50% marquee translate lands seamlessly on the duplicate copy. */
+  padding-right: 56px;
+}

@@ -1,0 +1,51 @@
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22px 44px;
+  font: 500 12px var(--font-mono);
+  letter-spacing: 0.14em;
+  background: linear-gradient(180deg, rgba(11, 11, 14, 0.85), transparent);
+  backdrop-filter: blur(6px);
+}
+
+.brand {
+  color: var(--text);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
+  display: inline-block;
+  animation: 2.4s ease-in-out infinite;
+  animation-name: global(glowPulse);
+}
+
+.links {
+  display: flex;
+  gap: 30px;
+}
+
+.links a {
+  color: var(--text-dim);
+  text-decoration: none;
+}
+
+.links a:last-child {
+  color: var(--text);
+}
+
+.links a:hover {
+  color: var(--accent);
+}

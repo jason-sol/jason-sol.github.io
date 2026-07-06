@@ -1,0 +1,93 @@
+.card {
+  display: block;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  padding: 40px;
+  background: var(--surface);
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  opacity: 0;
+  transform: translateY(34px);
+  transition:
+    opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.3s;
+}
+
+.cardVisible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.linked {
+  cursor: pointer;
+}
+
+.linked.cardVisible {
+  transition:
+    opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.3s,
+    border-color 0.3s;
+}
+
+.linked.cardVisible:hover {
+  border-color: var(--accent);
+  transform: translateY(-4px);
+}
+
+.kicker {
+  font: 500 11px var(--font-mono);
+  color: var(--text-faint);
+  letter-spacing: 0.2em;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 30px;
+  color: var(--text);
+  margin-top: 18px;
+}
+
+.blurb {
+  font: 400 15px/1.6 var(--font-body);
+  color: var(--text-dim);
+  margin: 16px 0 0;
+  max-width: 480px;
+}
+
+.tags {
+  display: flex;
+  gap: 8px;
+  margin-top: 28px;
+  flex-wrap: wrap;
+  font: 500 12px var(--font-mono);
+  --tag-text-color: var(--accent);
+}
+
+.arrow {
+  position: absolute;
+  top: 32px;
+  right: 32px;
+  font-size: 22px;
+  color: var(--accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .linked.cardVisible {
+    transition: border-color 0.3s;
+  }
+
+  .cardVisible,
+  .card {
+    opacity: 1;
+    transform: none;
+  }
+
+  .linked.cardVisible:hover {
+    transform: none;
+  }
+}

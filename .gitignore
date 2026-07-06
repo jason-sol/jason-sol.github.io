@@ -1,0 +1,9 @@
+node_modules
+dist
+test-results
+playwright-report
+*.tsbuildinfo
+
+# Design export — reference only, never commit
+Jason Solanki - Monolith.dc.html
+.playwright-mcp/

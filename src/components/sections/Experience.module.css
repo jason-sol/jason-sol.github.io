@@ -1,0 +1,172 @@
+.experience {
+  position: relative;
+  padding: 130px 8vw;
+  border-top: 1px solid var(--line);
+}
+
+.labelWrap {
+  margin-bottom: 60px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: 30px;
+}
+
+.lineWrap {
+  position: relative;
+}
+
+.svg {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 24px;
+  height: 100%;
+  overflow: visible;
+}
+
+.baseLine {
+  stroke: var(--line-strong);
+  stroke-width: 1;
+  fill: none;
+}
+
+.progressLine {
+  stroke: var(--accent);
+  stroke-width: 2;
+  fill: none;
+  filter: drop-shadow(0 0 6px var(--accent));
+}
+
+.dot {
+  fill: var(--accent);
+  filter: drop-shadow(0 0 8px var(--accent));
+}
+
+.roles {
+  display: flex;
+  flex-direction: column;
+  gap: 70px;
+}
+
+.role {
+  opacity: 0;
+  transform: translateY(34px);
+  transition:
+    opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.roleVisible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.roleWithImpact {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 50px;
+  align-items: start;
+}
+
+.roleSimple {
+  max-width: 640px;
+}
+
+.roleHeader {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.company {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 44px;
+  color: var(--text);
+}
+
+.title {
+  font: 500 13px var(--font-mono);
+  color: var(--accent);
+}
+
+.meta {
+  font: 400 13px var(--font-mono);
+  color: var(--text-faint);
+  margin-top: 10px;
+}
+
+.bullets {
+  margin: 26px 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  font: 400 16px/1.6 var(--font-body);
+  color: var(--text-mid);
+}
+
+.bullets li {
+  display: grid;
+  grid-template-columns: 16px 1fr;
+  gap: 14px;
+}
+
+.marker {
+  color: var(--accent);
+}
+
+.impactCard {
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  padding: 24px;
+  background: var(--surface);
+}
+
+.impactLabel {
+  font: 500 11px var(--font-mono);
+  color: var(--text-faint);
+  letter-spacing: 0.2em;
+  margin-bottom: 16px;
+}
+
+.impactRows {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font: 500 14px var(--font-mono);
+  color: var(--text);
+}
+
+.impactRow {
+  display: flex;
+  justify-content: space-between;
+}
+
+.impactRowKey {
+  color: var(--text-dim);
+}
+
+.impactValueAccent {
+  color: var(--accent);
+}
+
+@media (max-width: 1149px) {
+  .roleWithImpact {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .role {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

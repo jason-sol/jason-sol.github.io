@@ -1,0 +1,28 @@
+.button {
+  padding: 18px 36px;
+  border-radius: 2px;
+  text-decoration: none;
+  transition: all 0.25s;
+}
+
+.solid {
+  background: var(--accent);
+  color: var(--bg);
+  font: 700 16px var(--font-body);
+}
+
+.solid:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px color-mix(in oklab, var(--accent) 40%, transparent);
+}
+
+.outline {
+  border: 1px solid var(--line-strong);
+  color: var(--text);
+  font: 500 16px var(--font-body);
+}
+
+.outline:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}

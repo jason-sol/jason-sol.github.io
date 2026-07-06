@@ -1,0 +1,11 @@
+.ticker {
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  overflow: hidden;
+  padding: 18px 0;
+  background: var(--surface);
+}
+
+.separator {
+  color: var(--line-strong);
+}

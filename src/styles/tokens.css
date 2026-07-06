@@ -1,0 +1,26 @@
+:root {
+  --bg: #0b0b0e;
+  --surface: #0e0e12;
+  --line: #1c1c22;
+  --line-strong: #26262e;
+  --text: #e8e6e1;
+  --text-mid: #a8a8b2;
+  --text-dim: #8a8a93;
+  --text-faint: #82828e;
+  --accent: #57e6e0;
+
+  --risk-high-border: #3d1c1c;
+  --risk-high-bg: #180d0d;
+  --risk-high-text: #ff7a6b;
+  --risk-warn-border: #3d331c;
+  --risk-warn-bg: #17130a;
+  --risk-warn-text: #ffd23e;
+  --risk-ok-border: #1c3d2a;
+  --risk-ok-bg: #0a1710;
+  --risk-ok-text: #4ade80;
+
+  --font-display: 'Unbounded', sans-serif;
+  --font-body: 'Space Grotesk', sans-serif;
+  --font-serif: 'Instrument Serif', serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+}

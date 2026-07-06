@@ -1,0 +1,6 @@
+.label {
+  margin: 0;
+  font: 500 13px var(--font-mono);
+  color: var(--accent);
+  letter-spacing: 0.3em;
+}
