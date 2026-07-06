@@ -34,7 +34,18 @@
 - [x] WG5 Page-level Effects (tasks 17–19)
 - [x] WG6 Launch hardening (tasks 20–21) — code complete; go-live steps gated on Jason
 
-## Pre-launch (pending)
+## Review status
 
-- [ ] Flip repo visibility private → public at deploy time (needs Jason's explicit OK)
-- [ ] Merge/commit/push authorization — Jason's explicit instruction required per his global rules
+All six work groups: two-stage reviewed (spec + quality) with fix loops. Mode B architectural review + final whole-implementation review complete. Final gate on `feat/wg6-launch`: 237 unit / 37 files, 14 e2e / 3 specs (cold build), lint/typecheck/build clean, zero console errors. Final-review Critical (hero name clipped to one line) fixed and verified (unit + e2e regression + 1440px screenshot).
+
+## Pre-launch (needs Jason)
+
+- [ ] Merge the PR stack #1→#7 to main (in order, or squash) — needs explicit OK
+- [ ] Flip repo visibility private → public + enable Pages (Actions source) — needs explicit OK; deploy job on main fails until Pages is enabled (expected)
+- [ ] After go-live: verify https://jason-sol.github.io/ + Lighthouse
+
+## Deferred follow-ups (non-blocking, post-launch)
+
+- Orb imperatively mutates DOM owned by Experience/Contact (opacity save/restore) — Mode B flagged; make declarative via data-attr + host CSS. Parked intentionally.
+- Nav overflows at 375px (brand wraps, CONTACT clips) — below spec's supported widths; clean mobile nav adaptation.
+- Minor review nits already logged in PRs (DPR mid-session change, data-hook for the axe exclusion selector).
