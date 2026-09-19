@@ -52,3 +52,32 @@ All six work groups: two-stage reviewed (spec + quality) with fix loops. Mode B 
 ## Deferred follow-ups (non-blocking)
 
 - Minor review nits logged in PRs (DPR mid-session canvas change, data-hook for the axe exclusion selector).
+
+## Copy refresh from resume (2026-09-20, branch copy/humanize-site-content)
+
+Rewrote all site copy in a plain, declarative voice (Jason's pick) and re-based every fact on `Resume - Jason Solanki.pdf`.
+
+- [x] Voice pass over `src/content/site.ts` — removed the tricolons, em-dash callbacks and grandiose claims that read as LLM-written
+- [x] Facts updated: Harrison split into two roles (L2 promotion Jul 2026), Rad Agent Router, FHIR `Promise.all` fix, Zod inference-output validation, monorepo + error-code consolidation, education dates
+- [x] `clinicians`/`sites` stats replaced with resume-backed `patients` (6M+) / `facilities` (1,000+); the unsourced "3,500+ clinicians" figure is gone
+- [x] Stack expanded to 7 groups (GCP, Kubernetes, .NET, Jest/RTL, PostHog, AI agentic tooling, medical imaging)
+- [x] `Experience` role key made unique per period so two roles can share a company
+- [x] `index.html` title + meta description rewritten
+- [x] 239 unit / 14 e2e green, lint/typecheck/build clean, verified at 1440px and 390px
+
+### Open for Jason
+
+- Seams could be swapped for the Wedding Guest List app (282 tests, Dockerised, self-hosted) — the projects grid is 2x2, so it's a swap not an addition
+- No dedicated section for the AI agentic engineering work; it currently only appears as a stack group
+
+### Follow-ups added 2026-09-20 (same branch)
+
+- [x] New `06 — AI ENGINEERING` section (`Agentic.tsx`) with the six agentic-engineering practices from the resume; sections renumbered 04–10 and an `agentic` orb waypoint added between stack and experience
+- [x] Footer copyright year derived from `new Date()` instead of a hardcoded 2026 (`footer.copyright` → `footer.copyrightName`)
+- [x] Resume request in Contact: a `mailto:` draft prefilled with subject and a name/company/role template, built by a tested `mailtoUrl` helper. Chosen over a form (no backend on Pages) and over hosting the PDF (it carries Jason's phone number)
+- [x] "Source on GitHub" link in the hero, dropped from the tab order once the name phase fades (the phase stays `visibility: visible` at opacity 0 for the h1)
+- [x] 252 unit / 14 e2e green; the whole-page axe scan needed `test.slow()` — its runtime scales with page height and the extra section pushed it past 30s
+
+### Still open
+
+- Seams vs the Wedding Guest List app in Projects: Jason kept Seams for now
