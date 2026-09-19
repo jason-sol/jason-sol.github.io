@@ -17,10 +17,18 @@ it('renders the section label as a level-2 heading', () => {
 it('renders every role with its company, title, and period', () => {
   const { container } = render(<Experience />)
   for (const role of site.roles) {
-    expect(screen.getByText(role.company)).toBeInTheDocument()
+    expect(screen.getAllByText(role.company).length).toBeGreaterThan(0)
     expect(screen.getByText(role.title)).toBeInTheDocument()
     expect(container.textContent).toContain(role.period)
   }
+})
+
+it('renders successive roles at the same company as separate entries', () => {
+  const spy = vi.spyOn(console, 'error').mockImplementation(() => {})
+  const { container } = render(<Experience />)
+  expect(container.querySelectorAll(`.${styles.role}`)).toHaveLength(site.roles.length)
+  expect(spy).not.toHaveBeenCalled()
+  spy.mockRestore()
 })
 
 it('renders impact log rows resolved against the shared stats record', () => {

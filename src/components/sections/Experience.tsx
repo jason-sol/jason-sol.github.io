@@ -96,7 +96,7 @@ export function Experience() {
         </div>
         <div className={styles.roles}>
           {site.roles.map((role) => (
-            <RoleEntry key={role.company} role={role} />
+            <RoleEntry key={`${role.company}-${role.period}`} role={role} />
           ))}
         </div>
       </div>
