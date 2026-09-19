@@ -19,6 +19,10 @@ test('has no automatically detectable accessibility violations at the top of the
 })
 
 test('has no automatically detectable accessibility violations with the whole page revealed', async ({ page }) => {
+  // The scan settles animations once per viewport-height step, so its runtime grows with
+  // the page. Every added Section pushes it closer to the default timeout.
+  test.slow()
+
   await page.goto('/')
   await dismissIntro(page)
 

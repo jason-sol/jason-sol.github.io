@@ -29,12 +29,12 @@ describe('Content model invariants', () => {
 
 describe('stat resolution', () => {
   it('resolveStat returns the shared stat entity for a key', () => {
-    expect(resolveStat('clinicians')).toBe(site.stats.clinicians)
+    expect(resolveStat('patients')).toBe(site.stats.patients)
     expect(resolveStat('pullRequests')).toBe(site.stats.pullRequests)
   })
 
   it('formatStat renders the canonical "value label" string', () => {
-    expect(formatStat('clinicians')).toBe('3,500+ clinicians')
+    expect(formatStat('patients')).toBe('6M+ patients')
     expect(formatStat('repositories')).toBe('18 repositories')
   })
 })

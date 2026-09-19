@@ -36,6 +36,7 @@ const WAYPOINT_DEFS: WaypointDef[] = [
   { id: 'p3', side: 'left', offset: 32, size: 14, shape: 'circle' },
   { id: 'about', side: 'center', offset: 0, size: 13, shape: 'diamond' },
   { id: 'stack', side: 'left', offset: 32, size: 14, shape: 'square' },
+  { id: 'agentic', side: 'left', offset: 32, size: 14, shape: 'diamond' },
   { id: 'experience', side: 'center', offset: 0, size: 12, shape: 'circle' },
   { id: 'projects', side: 'left', offset: 32, size: 14, shape: 'square' },
   { id: 'edu', side: 'left', offset: 32, size: 14, shape: 'circle' },

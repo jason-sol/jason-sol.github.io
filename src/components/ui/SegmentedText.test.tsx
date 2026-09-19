@@ -16,8 +16,8 @@ it('wraps styled segments in a span with the variant class', () => {
 })
 
 it('expands stat segments from the shared stats entity', () => {
-  const { clinicians } = site.stats
-  render(<SegmentedText segments={[{ statKey: 'clinicians', style: 'accent' }]} />)
-  const stat = screen.getByText(`${clinicians.value} ${clinicians.label}`)
+  const { patients } = site.stats
+  render(<SegmentedText segments={[{ statKey: 'patients', style: 'accent' }]} />)
+  const stat = screen.getByText(`${patients.value} ${patients.label}`)
   expect(stat.className).toMatch(/accent/i)
 })

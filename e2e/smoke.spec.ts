@@ -5,7 +5,8 @@ import { dismissIntro } from './helpers'
 test('page renders nav and contact', async ({ page }) => {
   await page.goto('/')
   await expect(page.getByRole('navigation')).toBeVisible()
-  await expect(page.getByRole('link', { name: /github/i })).toBeVisible()
+  // Scoped to Contact: the hero also carries a "Source on GitHub" link.
+  await expect(page.locator('#contact').getByRole('link', { name: 'GitHub' })).toBeVisible()
 })
 
 test('both declared favicons (svg + png fallback) resolve without a 404', async ({ page, baseURL }) => {
@@ -49,6 +50,7 @@ test('hero renders its h1, and every content section renders a visible h2 on scr
   const sectionLabels = [
     site.sectionLabels.about,
     site.sectionLabels.stack,
+    site.sectionLabels.agentic,
     site.sectionLabels.experience,
     site.sectionLabels.projects,
     site.sectionLabels.education,
@@ -59,7 +61,8 @@ test('hero renders its h1, and every content section renders a visible h2 on scr
     await expect(heading).toBeVisible()
   }
 
-  const contactHeading = page.getByRole('heading', { level: 2, name: /LET'S BUILD/ })
+  const contactTitle = site.contact.title.map((seg) => ('text' in seg ? seg.text : '')).join('')
+  const contactHeading = page.getByRole('heading', { level: 2, name: contactTitle })
   await contactHeading.scrollIntoViewIfNeeded()
   await expect(contactHeading).toBeVisible()
 })

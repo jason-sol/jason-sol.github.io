@@ -1,4 +1,5 @@
 import { site } from '../../content/site'
+import { mailtoUrl } from '../../lib/mailto'
 import { LinkButton } from '../ui/LinkButton'
 import { SectionLabel } from '../ui/SectionLabel'
 import { SegmentedText } from '../ui/SegmentedText'
@@ -10,6 +11,9 @@ export function Contact() {
   const period = segments.length > 0 ? segments[segments.length - 1] : undefined
   const isPeriod = period !== undefined && 'text' in period && period.text === '.'
   const leading = isPeriod ? segments.slice(0, -1) : segments
+
+  const { subject, body } = site.contact.resume
+  const resumeHref = mailtoUrl(site.contact.email, subject, body)
 
   return (
     <section id="contact" className={styles.contact}>
@@ -35,6 +39,7 @@ export function Contact() {
           <LinkButton href={site.contact.linkedin} external>
             LinkedIn<span aria-hidden="true"> ↗</span>
           </LinkButton>
+          <LinkButton href={resumeHref}>{site.contact.resume.label}</LinkButton>
         </div>
       </div>
     </section>

@@ -65,12 +65,13 @@ export function Hero({ entranceKey = 0 }: HeroProps) {
 
         {site.heroPhases.map((phase, i) => {
           const { opacity, translateY, scale, blur } = phaseStyle(i, progress)
+          const faded = opacity < 0.01
           const style: CSSProperties = {
             opacity,
             // Phase 0 holds the page's only h1: it stays in the accessibility tree even at
             // opacity 0 so a heading-navigation user always has a level-1 heading to reach.
             // It's harmless visually — by the time it's fully faded it has also scrolled off-screen.
-            visibility: i === 0 || opacity >= 0.01 ? 'visible' : 'hidden',
+            visibility: i === 0 || !faded ? 'visible' : 'hidden',
             transform: `translateY(${translateY}px) scale(${scale})`,
             filter: reduced ? 'blur(0)' : `blur(${blur}px)`,
           }
@@ -90,6 +91,18 @@ export function Hero({ entranceKey = 0 }: HeroProps) {
                   <StackedNameLines segments={phase.headline} />
                 </h1>
                 {phase.sub && <p className={styles.riseSub}>{phase.sub}</p>}
+                {/* The phase stays visibility:visible at opacity 0 to keep the h1 reachable by
+                    heading navigation, so the link has to leave the tab order on its own. */}
+                <a
+                  href={site.repoUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={styles.riseSource}
+                  tabIndex={faded ? -1 : undefined}
+                  aria-hidden={faded || undefined}
+                >
+                  Source on GitHub<span aria-hidden="true"> ↗</span>
+                </a>
               </div>
             )
           }

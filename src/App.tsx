@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { About } from './components/sections/About'
+import { Agentic } from './components/sections/Agentic'
 import { Contact } from './components/sections/Contact'
 import { Education } from './components/sections/Education'
 import { Experience } from './components/sections/Experience'
@@ -34,6 +35,7 @@ export function App() {
         <Ticker />
         <About />
         <Stack />
+        <Agentic />
         <Experience />
         <Projects />
         <Education />

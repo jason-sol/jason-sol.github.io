@@ -91,3 +91,36 @@ describe('entrance replay', () => {
     expect(after).not.toBe(before)
   })
 })
+
+it('links the hero to the site source repository', () => {
+  render(<Hero />)
+  const link = screen.getByRole('link', { name: /source/i })
+  expect(link).toHaveAttribute('href', site.repoUrl)
+  expect(link).toHaveAttribute('target', '_blank')
+  expect(link).toHaveAttribute('rel', 'noreferrer')
+})
+
+it('takes the source link out of the tab order once the name phase has faded out', () => {
+  // The name phase stays visibility:visible at opacity 0 to keep the h1 reachable by
+  // heading navigation, so its link would otherwise stay tabbable behind an invisible phase.
+  const rafCallbacks: FrameRequestCallback[] = []
+  const rafSpy = vi.spyOn(window, 'requestAnimationFrame').mockImplementation(((cb: FrameRequestCallback) => {
+    rafCallbacks.push(cb)
+    return rafCallbacks.length
+  }) as typeof window.requestAnimationFrame)
+  const rectSpy = vi
+    .spyOn(Element.prototype, 'getBoundingClientRect')
+    .mockImplementation(
+      () => ({ top: -4232, left: 0, right: 0, bottom: 0, width: 0, height: 5000, x: 0, y: 0, toJSON() {} }) as DOMRect,
+    )
+
+  const { container } = render(<Hero />)
+  const link = container.querySelector(`a[href="${site.repoUrl}"]`)!
+  expect(link).not.toHaveAttribute('tabindex')
+
+  act(() => rafCallbacks.splice(0).forEach((cb) => cb(0)))
+  expect(container.querySelector(`a[href="${site.repoUrl}"]`)).toHaveAttribute('tabindex', '-1')
+
+  rafSpy.mockRestore()
+  rectSpy.mockRestore()
+})

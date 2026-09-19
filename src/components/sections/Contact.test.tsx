@@ -4,7 +4,7 @@ import { Contact } from './Contact'
 
 it('renders its display title as a level-2 heading', () => {
   render(<Contact />)
-  expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent("LET'S BUILD.")
+  expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent("GET IN TOUCH.")
 })
 
 it('carries the orb end Waypoint anchor on the closing period', () => {
@@ -52,4 +52,18 @@ it('opens GitHub and LinkedIn in a new tab with rel=noreferrer', () => {
     expect(link).toHaveAttribute('target', '_blank')
     expect(link).toHaveAttribute('rel', 'noreferrer')
   }
+})
+
+it('offers a resume request that opens a prefilled mail draft', () => {
+  render(<Contact />)
+  const link = screen.getByRole('link', { name: site.contact.resume.label })
+  const href = link.getAttribute('href')!
+  expect(href.startsWith(`mailto:${site.contact.email}?`)).toBe(true)
+  expect(href).toContain(`subject=${encodeURIComponent(site.contact.resume.subject)}`)
+  expect(href).toContain(`body=${encodeURIComponent(site.contact.resume.body)}`)
+})
+
+it('keeps the resume request in the same tab so the mail client can take over', () => {
+  render(<Contact />)
+  expect(screen.getByRole('link', { name: site.contact.resume.label })).not.toHaveAttribute('target')
 })
