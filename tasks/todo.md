@@ -81,3 +81,10 @@ Rewrote all site copy in a plain, declarative voice (Jason's pick) and re-based 
 ### Still open
 
 - Seams vs the Wedding Guest List app in Projects: Jason kept Seams for now
+
+## Humanizer pass (2026-10-26, main)
+
+- [x] Ran every visible string (`site.ts`, component labels, `index.html` meta) through the humanizer checklist, keeping the plain-and-flat voice and adding no new facts
+- [x] Rewrote the six AI-engineering practice cards: dropped fragment openers ("Red, green, refactor."), passive voice, tacked-on stat fragments and slogan closers ("becomes one repeatable command", "meet the bar")
+- [x] Seams blurb and one Harrison bullet tightened; meta description no longer mixes third and first person
+- [x] 254 unit / 14 e2e green, lint/typecheck/build clean

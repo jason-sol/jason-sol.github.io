@@ -252,27 +252,27 @@ export const site: Site = {
   practices: [
     {
       title: 'Architecture first',
-      body: 'Every feature starts as a written design spec, an implementation plan and a domain glossary, before any code. I use Claude Code to pressure-test the design, then break the approved plan into small increments I can review one at a time.',
+      body: 'I write a design spec, an implementation plan and a domain glossary before any code. Claude Code helps me find the holes in the design. Then I split the approved plan into small pieces I can review one at a time.',
     },
     {
       title: 'Tests before code',
-      body: 'Red, green, refactor. The failing test goes in before the implementation, so generated code is verified before it lands. 480+ automated tests across two personal products, plus the Pact, integration and Vitest suites at Harrison.',
+      body: 'I write a failing test first, then the code that makes it pass. That way I know generated code works before it lands. My two personal products have 480+ automated tests between them, and at Harrison I write Pact, integration and Vitest tests.',
     },
     {
       title: 'Custom skills',
-      body: 'I run and extend an agentic toolkit for my squad: cutting releases and promoting them through staging to production, sprint changelogs and PR summaries for product owners, Jira ticket-hygiene audits, retro prep. Multi-step operational work becomes one repeatable command.',
+      body: 'I maintain a set of Claude Code skills for my squad. They cut releases and promote them through staging to production, write sprint changelogs and PR summaries for product owners, audit Jira tickets and prep retros. Each one runs as a single command.',
     },
     {
       title: 'MCP connectors',
-      body: 'Claude Code is wired into Jira, Confluence, Slack, GitHub and PostHog, so the agent works against live tickets, documentation, pull requests and product analytics instead of context I paste in by hand.',
+      body: "I've connected Claude Code to Jira, Confluence, Slack, GitHub and PostHog. The agent reads the tickets, docs, pull requests and analytics itself, so I don't have to paste them in.",
     },
     {
       title: 'Hooks and guardrails',
-      body: 'Repository conventions live in CLAUDE.md and AGENTS.md, and hooks enforce them: formatting, lint and tests on edit, plus protected-file and secret-pattern checks. AI-assisted changes meet the bar before a human reviews them.',
+      body: 'Each repo keeps its conventions in CLAUDE.md and AGENTS.md, and hooks enforce them. Every edit runs the formatter, lint and tests, and checks for protected files and secret patterns. An AI-assisted change has to pass all of that before anyone reviews it.',
     },
     {
       title: 'First-pass review',
-      body: 'Claude reviews my pull requests before I send them, looking for bugs, security smells, missing tests and contract-test gaps. 180+ production pull requests across 18 repositories in year one, and two full-stack products shipped solo.',
+      body: 'Claude reviews my pull requests before I send them. It looks for bugs, security problems, missing tests and gaps in the contract tests. In my first year I opened 180+ production pull requests across 18 repositories, and I built two full-stack products of my own.',
     },
   ],
   roles: [
@@ -296,7 +296,7 @@ export const site: Site = {
       bullets: [
         'Sole author of Organization Onboarding: a CRUD /organizations API over 4 resources with SSO, members and roles in Node and TypeScript, plus the React admin portal and the BFF integration. Every endpoint shipped with unit, integration and Pact contract tests.',
         'Designed an SSM-backed secrets-management system across 5 layers (admin service, AWS SSM/KMS, BFF proxy, React UI, IAM) after finding an analytics API key that could be pulled straight out of the Electron desktop bundle. Wrote the design doc, the RBAC model and 70 tests.',
-        'Built inference-output validation for the chest X-ray and CT chest models using Zod discriminated unions keyed by model type, so malformed model output is rejected before a radiologist ever sees it.',
+        'Built inference-output validation for the chest X-ray and CT chest models using Zod discriminated unions keyed by model type, so malformed model output is rejected before it reaches a radiologist.',
         'Moved the admin service to an npm-workspaces monorepo with a shared schema package and a published client, and led error-code consolidation across 5 services.',
       ],
       impactLog: [
@@ -354,7 +354,7 @@ export const site: Site = {
       kicker: 'UNSW · BACKEND',
       title: 'Seams — Team Messaging',
       blurb:
-        'A TypeScript and Node REST API for a Microsoft Teams clone, built with a team over three iterations. Token auth, channels, DMs, messaging, standups and admin permissions, with Jest suites and CI throughout, then integrated with the frontend client.',
+        'A TypeScript and Node REST API for a Microsoft Teams clone, built in a team over three iterations. It covers token auth, channels, DMs, messaging, standups and admin permissions, with Jest tests and CI in every iteration. We then connected it to the frontend client.',
       tags: ['TypeScript', 'Express', 'Jest'],
     },
   ],
